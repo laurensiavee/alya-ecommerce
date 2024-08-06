@@ -21,6 +21,7 @@ export const authOptions:NextAuthOptions = {
                 const {data,error} = await supabase
                 .from('user')
                 .select()
+                .eq('username',credentials.username)
                 .single();
                 
                 if (error || !data) {
