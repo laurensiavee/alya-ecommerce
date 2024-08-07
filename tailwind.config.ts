@@ -54,6 +54,7 @@ const config = {
         },
         // color pallete:
         'l-text': '#041415',
+        'l-text-secondary': '#565562',
         'l-bg': '#F1FBFD',
         'l-primary': '#36D2DB',
         'l-secondary': '#BD91EB',
