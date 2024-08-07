@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { createClient } from '@/utils/supabase/server';
+import {compare} from 'bcryptjs'
 
 const supabase = createClient();
 
@@ -19,11 +20,19 @@ export const authOptions:NextAuthOptions = {
                 }
 
                 const {data,error} = await supabase
-                .from('user')
+                .from('users')
                 .select()
                 .eq('username',credentials.username)
                 .single();
                 
+                const isValidPassword = compare(data.password,credentials.password);
+
+                if(!isValidPassword){
+                    return null
+                }
+
+                console.log(data)
+
                 if (error || !data) {
                     return null; // User not found or error occurred
                 }

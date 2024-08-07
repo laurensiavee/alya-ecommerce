@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 
@@ -18,8 +19,8 @@ const LoginPage = () => {
     if (result?.error) {
       setError(result.error);
     } else {
-      // Redirect or handle successful sign-in
-      window.location.href = '/'; // Redirect to home page or another page
+      console.log(result)
+      window.location.href = '/testings'; 
     }
   };
 
