@@ -29,11 +29,6 @@ export const authOptions:NextAuthOptions = {
                     console.error("Error fetching user or user not found:", error?.message);
                     return null;
                 }
-                const plaintextPassword = 'Kanadechan123';
-                const saltRounds = 12;
-                
-                const hashedPassword = await hash(plaintextPassword,saltRounds)
-                console.log(hashedPassword)
                 
                 const isValidPassword = await compare(credentials.password,data.password);
                 
