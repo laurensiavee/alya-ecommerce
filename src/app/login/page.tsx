@@ -23,7 +23,7 @@ const LoginPage = () => {
       setError(result.error);
     } else {
       console.log(result)
-      window.location.href = '/testings'; 
+      window.location.href = '/'; 
     }
   };
 
