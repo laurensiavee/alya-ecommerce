@@ -2,6 +2,8 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { createClient } from '@/utils/supabase/server';
 import {compare,hash} from 'bcryptjs'
+import jwt from 'jsonwebtoken';
+import { timeStamp } from "console";
 
 export const authOptions:NextAuthOptions = {
     providers:[
@@ -32,17 +34,30 @@ export const authOptions:NextAuthOptions = {
                 
                 const isValidPassword = await compare(credentials.password,data.password);
                 
-                console.log(isValidPassword)
-
                 if(!isValidPassword){
                     return null
+                }
+
+                const generateToken = jwt.sign(
+                    {userName : data.username},
+                    process.env.JWT_SIGN_TOKEN_UNIQUES as string,
+                    {expiresIn:'12h'}
+                )
+                const timeStamp = new Date().toISOString();
+                const {error:tokenError} = await supabase
+                    .from('users_token')
+                    .insert([{user_id:data.id,token:generateToken,created_at:timeStamp}])
+
+                if (tokenError){
+                    console.error('Error Storing Token ',tokenError)
                 }
 
                 return { 
                     id: data.id,
                     username:data.username,
                     name:data.name,
-                    email:data.email
+                    email:data.email,
+                    generateToken
                   };
             }
         })
