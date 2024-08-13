@@ -13,7 +13,6 @@ const LoginPage = () => {
 
   return (
     <>
-    <Theme>
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
         <div className='w-1/3 m-auto'>
           <Card>
@@ -57,7 +56,6 @@ const LoginPage = () => {
           </Card>
         </div>
       </div>
-      </Theme>
     </>
   );
 };
