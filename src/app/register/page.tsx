@@ -9,12 +9,17 @@ import { Button, Theme } from '@radix-ui/themes';
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   return (
     <>
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
-        <div className='w-1/3 m-auto'>
+        <div className='w-1/2 m-auto'>
           <Card>
             <div>
               <img src="https://static.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/p1/1053/2024/06/23/Anime-Tokidoki-Bosotto-Rushiago-de-Dareru-Tonari-no-Alya-san-4097435345.jpg" 
@@ -45,9 +50,69 @@ const LoginPage = () => {
                     required
                   />
                 </div>
+                <div className='mb-3'>
+                  <Label>First Name</Label>
+                  <input
+                    placeholder="first name" 
+                    className="bg-white border border-l-secondary/60 text-l-text text-sm rounded-lg block w-full p-2.5"
+                    id="firstname"
+                    type="text"
+                    value={firstname}
+                    onChange={(e) => setFirstname(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className='mb-3'>
+                  <Label>Last Name</Label>
+                  <input
+                    placeholder="lastname" 
+                    className="bg-white border border-l-secondary/60 text-l-text text-sm rounded-lg block w-full p-2.5"
+                    id="lastname"
+                    type="text"
+                    value={lastname}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className='mb-3'>
+                  <Label>Email</Label>
+                  <input
+                    placeholder="email" 
+                    className="bg-white border border-l-secondary/60 text-l-text text-sm rounded-lg block w-full p-2.5"
+                    id="email"
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className='mb-3'>
+                  <Label>Phone</Label>
+                  <input
+                    placeholder="phone" 
+                    className="bg-white border border-l-secondary/60 text-l-text text-sm rounded-lg block w-full p-2.5"
+                    id="phone"
+                    type="string"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className='mb-3'>
+                  <Label>Address</Label>
+                  <input
+                    placeholder="address" 
+                    className="bg-white border border-l-secondary/60 text-l-text text-sm rounded-lg block w-full p-2.5"
+                    id="address"
+                    type="string"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    required
+                  />
+                </div>
                 <div className='flex justify-center '>
                   <Button variant='surface' type="submit" className="rounded-xl p-3 px-5 my-2 bg-gradient-to-br from-l-secondary to-l-accent text-d-text font-bold hover:from-l-accent hover:to-l-secondary hover:shadow-2xl hover:shadow-l-secondary/50">
-                    Login
+                    Register
                   </Button>
                 </div>
                 {error && <p>{error}</p>}
