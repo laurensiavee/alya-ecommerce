@@ -5,7 +5,6 @@ import Card from '../component/Card';
 import Label from '../component/Label';
 import Title from '../component/Title';
 import { Button, Theme } from '@radix-ui/themes';
-
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -110,8 +109,11 @@ const LoginPage = () => {
                     required
                   />
                 </div>
+                <Button color="crimson" variant="soft">
+                  <a href="/login">Login</a>
+                </Button>
                 <div className='flex justify-center '>
-                  <Button variant='surface' type="submit" className="rounded-xl p-3 px-5 my-2 bg-gradient-to-br from-l-secondary to-l-accent text-d-text font-bold hover:from-l-accent hover:to-l-secondary hover:shadow-2xl hover:shadow-l-secondary/50">
+                  <Button variant='surface' type="submit" >
                     Register
                   </Button>
                 </div>

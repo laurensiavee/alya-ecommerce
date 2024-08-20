@@ -29,7 +29,7 @@ export const authOptions:NextAuthOptions = {
                 console.log("Supabase query result:", { data, error });
                 if (error || !data) {
                     console.error("Error fetching user or user not found:", error?.message);
-                    return null;
+                   throw new Error(error?.message)
                 }
                 
                 const isValidPassword = await compare(credentials.password,data.password);

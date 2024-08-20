@@ -1,14 +1,16 @@
 'use client'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import Card from '../component/Card';
 import Label from '../component/Label';
 import Title from '../component/Title';
+import { Bounce, toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Button } from '@radix-ui/themes';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,20 +18,32 @@ const LoginPage = () => {
     const result = await signIn('credentials', {
       redirect: false,
       username,
-      password,
+      password
     });
 
+    console.log("Login: "+result?.error)
     if (result?.error) {
-      setError(result.error);
-    } else {
+      toast.error(result?.error, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
+    else {
       console.log(result)
-      window.location.href = '/main-page'; 
     }
   };
 
   return (
-    <>
+    <> 
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
+        <ToastContainer />
         <div className='w-1/3 m-auto'>
           <Card>
             <div>
@@ -61,13 +75,14 @@ const LoginPage = () => {
                     required
                   />
                 </div>
-                <a href="/register" className=' text-xs'>Register here</a>
+                <Button color="crimson" variant="soft">
+                  <a href="/register">Register</a>
+                </Button>
                 <div className='flex justify-center '>
-                  <button type="submit" className="rounded-xl p-3 px-5 my-2 bg-gradient-to-br from-l-secondary to-l-accent text-d-text font-bold hover:from-l-accent hover:to-l-secondary hover:shadow-2xl hover:shadow-l-secondary/50">
+                  <Button variant='surface' type="submit" className="rounded-xl p-3 px-5 my-2 bg-gradient-to-br from-l-secondary to-l-accent text-d-text font-bold hover:from-l-accent hover:to-l-secondary hover:shadow-2xl hover:shadow-l-secondary/50">
                     Login
-                  </button>
+                  </Button>
                 </div>
-                {error && <p>{error}</p>}
               </form>
             </div>
           </Card>
