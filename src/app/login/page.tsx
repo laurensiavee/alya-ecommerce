@@ -21,8 +21,8 @@ const LoginPage = () => {
       password
     });
 
-    console.log("Login: "+result?.error)
     if (result?.error) {
+      console.log("Login: "+result?.error)
       toast.error(result?.error, {
         position: "top-right",
         autoClose: 2000,
