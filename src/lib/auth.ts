@@ -41,7 +41,8 @@ export const authOptions:NextAuthOptions = {
                     {expiresIn:'12h'}
                 )
                 const timeStamp = new Date().toISOString();
-                
+                const now = new Date();
+                const expiredTimeStamp = new Date(now.getTime() + 12 * 60 * 60 * 1000).toISOString();
                 const {data:check_token} = await supabase
                     .from('users_token')
                     .select('*')
@@ -58,7 +59,7 @@ export const authOptions:NextAuthOptions = {
 
                 const {error:tokenError} = await supabase
                 .from('users_token')
-                .insert([{users_id:userData.id,is_active:1,token:generateToken,created_at:timeStamp}])
+                .insert([{users_id:userData.id,is_active:1,token:generateToken,created_at:timeStamp,expired_at:expiredTimeStamp}])
 
                 if (tokenError){
                     throw new Error("Invalid Store Tokens")
