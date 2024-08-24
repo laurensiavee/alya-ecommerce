@@ -64,7 +64,9 @@ export const authOptions:NextAuthOptions = {
                 if (tokenError){
                     throw new Error("Invalid Store Tokens")
                 }
-
+                
+                sessionStorage.setItem('auth_tokens',generateToken);
+                
                 return { 
                     id: userData.id,
                     username:userData.username,
