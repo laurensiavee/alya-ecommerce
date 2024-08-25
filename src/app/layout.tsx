@@ -19,11 +19,11 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-l-bg">
         <Theme>
-        <Navbar />
+          <Navbar />
           <div className="m-5 p-5">
             {children}
           </div>
-          </Theme>
+        </Theme>
       </body>
     </html>
   );
