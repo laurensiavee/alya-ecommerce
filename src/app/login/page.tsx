@@ -1,9 +1,9 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { signIn } from 'next-auth/react';
-import Card from '../component/Card';
-import Label from '../component/Label';
-import Title from '../component/Title';
+import Card from '../component/base/Card';
+import Label from '../component/base/Label';
+import Title from '../component/base/Title';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from '@radix-ui/themes';
