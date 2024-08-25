@@ -7,16 +7,40 @@ import Title from '../component/Title';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from '@radix-ui/themes';
+import { useSession } from 'next-auth/react';
+
 
 const LoginPage = () => {
+  const { data: session, status } = useSession();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  
+  // useEffect(()=>{
+
+  //   console.log('Session Status:', status);
+  //   console.log('Session Data:', session);
+    
+  //   if(status === 'authenticated' ){
+  //     const access_token = session?.accessToken
+  //     const user = session?.user
+
+  //     if(access_token){
+  //       sessionStorage.setItem('access_token',access_token)
+  //     }
+
+  //     if(user){
+  //       sessionStorage.setItem('user_data',JSON.stringify(user));
+  //     }
+
+  //     window.location.href='/';
+  //   }   
+  // },[session,status]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const result = await signIn('credentials', {
-      redirect: false,
+      redirect: true,
       username,
       password
     });
@@ -36,7 +60,8 @@ const LoginPage = () => {
       });
     }
     else {
-      console.log(result)
+      // console.log("Session: "+session,"Status: "+status)
+      window.location.href = "/"
     }
   };
 

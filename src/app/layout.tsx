@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./component/layout/Navbar";
 import { Theme } from '@radix-ui/themes';
+import { SessionProvider } from 'next-auth/react'; // Import SessionProvider
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,11 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-l-bg">
-        <Theme>
-        <Navbar />
-          <div className="m-5 p-5">
-            {children}
-          </div>
+
+          <Theme>
+            <Navbar />
+            <div className="m-5 p-5">
+              <SessionProvider>
+                {children}
+              </SessionProvider>
+            </div>
           </Theme>
       </body>
     </html>
