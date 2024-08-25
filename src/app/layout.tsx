@@ -20,15 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-l-bg">
-
-          <Theme>
-            <Navbar />
-            <div className="m-5 p-5">
-              <SessionProvider>
-                {children}
-              </SessionProvider>
-            </div>
-          </Theme>
+        <Theme>
+          <Navbar />
+          <div className="m-5 p-5">
+            {children}
+          </div>
+        </Theme>
+        <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
       </body>
     </html>
   );
