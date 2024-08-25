@@ -15,26 +15,26 @@ const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   
-  // useEffect(()=>{
-
-  //   console.log('Session Status:', status);
-  //   console.log('Session Data:', session);
+  useEffect(()=>{
+    console.log('Session Status:', status);
+    console.log('Session Data:', session);
     
-  //   if(status === 'authenticated' ){
-  //     const access_token = session?.accessToken
-  //     const user = session?.user
+    if(status === 'authenticated' ){
+      const access_token = session?.accessToken
+      const user = session?.user
+      console.log(access_token);
+      console.log(user)
+      if(access_token){
+        sessionStorage.setItem('access_token',access_token)
+      }
 
-  //     if(access_token){
-  //       sessionStorage.setItem('access_token',access_token)
-  //     }
+      if(user){
+        sessionStorage.setItem('user_data',JSON.stringify(user));
+      }
 
-  //     if(user){
-  //       sessionStorage.setItem('user_data',JSON.stringify(user));
-  //     }
-
-  //     window.location.href='/';
-  //   }   
-  // },[session,status]);
+      window.location.href='/';
+    }   
+  },[session,status]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,7 +61,7 @@ const LoginPage = () => {
     }
     else {
       // console.log("Session: "+session,"Status: "+status)
-      window.location.href = "/"
+      // window.location.href = "/"
     }
   };
 

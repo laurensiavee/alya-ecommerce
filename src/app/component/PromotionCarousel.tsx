@@ -31,7 +31,7 @@ export default function PromotionCarousel() {
                             {/* <img src="/docs/images/carousel/carousel-4.svg" className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..."> */}
                         </div>
                         <div className="hidden duration-700 ease-in-out" data-carousel-item>
-                            <img className="w-full absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" src="https://raw.githubusercontent.com/laurensiavee/portfolio/main/img/1_kny.png" alt="Sunset in the mountains" />
+                            <img className="w-full absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 " src="https://raw.githubusercontent.com/laurensiavee/portfolio/main/img/1_kny.png" alt="Sunset in the mountains" />
                             {/* <img src="/docs/images/carousel/carousel-5.svg" className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..."> */}
                         </div>  
 

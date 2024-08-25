@@ -89,7 +89,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.username = user.username;
-        token.access_token = user.accessToken;
+        token.accessToken = user.accessToken;
         token.email = user.email;
         token.name = user.name;
         token.picture = "";
@@ -98,10 +98,16 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      console.log('Session Callback - Session:', session);
-      session.user = { name: token.name, email: token.email, image: "" };
-      session.accessToken = token.accessToken;
+      console.log('Session Callback - Start'); // Log at the start
+      console.log('Session Callback - Token:', token); // Log the token
+    
+      if (token) {
+        session.user = { name: token.name, email: token.email, image: "" };
+        session.accessToken = token.accessToken;
+      }
+    
+      console.log('Session Callback - Session:', session); // Log the session object
       return session;
-    },
+    }
   },
 };
