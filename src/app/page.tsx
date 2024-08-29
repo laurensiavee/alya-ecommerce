@@ -6,7 +6,9 @@ import ProductList from "./component/ProductList";
 export default function Home() {
   return (
     <div>
-      <PromotionCarousel/>
+      <div className='mb-5'>
+        <PromotionCarousel />
+      </div>
       <ProductList />
     </div> 
   );
