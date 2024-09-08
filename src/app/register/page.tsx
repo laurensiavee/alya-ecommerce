@@ -30,7 +30,7 @@ const LoginPage = () => {
 
     const headers = { 'Authorization': ACCESS_TOKEN }; 
 
-    const uri = API_DEV_URI;
+    const uri = API_DEV_URI + 'register-users';
     axios
       .post(uri, newUser, { headers })
       .then((res) => {
