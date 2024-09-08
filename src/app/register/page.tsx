@@ -5,15 +5,40 @@ import Card from '../component/base/Card';
 import Label from '../component/base/Label';
 import Title from '../component/base/Title';
 import { Button, Theme } from '@radix-ui/themes';
+import axios from "axios";
+import { API_DEV_URI, ACCESS_TOKEN } from '../const/token';
+
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastName] = useState('');
+  const [fullname, setFullname] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  function register() {
+    console.log("bro")
+    const newUser = {
+        username: username,
+        password: password,
+        fullname: fullname,
+        email: email,
+        phone: phone,
+        address: address,
+    }
+
+    const headers = { 'Authorization': ACCESS_TOKEN }; 
+
+    const uri = API_DEV_URI;
+    axios
+      .post(uri, newUser, { headers })
+      .then((res) => {
+        console.log(res)
+      })
+      .finally(() => {
+      });
+  }
 
   return (
     <>
@@ -50,26 +75,14 @@ const LoginPage = () => {
                   />
                 </div>
                 <div className='mb-3'>
-                  <Label>First Name</Label>
+                  <Label>Full Name</Label>
                   <input
-                    placeholder="first name" 
+                    placeholder="full name" 
                     className="bg-white border border-l-secondary/60 text-l-text text-sm rounded-lg block w-full p-2.5"
-                    id="firstname"
+                    id="fullname"
                     type="text"
-                    value={firstname}
-                    onChange={(e) => setFirstname(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className='mb-3'>
-                  <Label>Last Name</Label>
-                  <input
-                    placeholder="lastname" 
-                    className="bg-white border border-l-secondary/60 text-l-text text-sm rounded-lg block w-full p-2.5"
-                    id="lastname"
-                    type="text"
-                    value={lastname}
-                    onChange={(e) => setLastName(e.target.value)}
+                    value={fullname}
+                    onChange={(e) => setFullname(e.target.value)}
                     required
                   />
                 </div>
@@ -113,9 +126,17 @@ const LoginPage = () => {
                   <a href="/login">Login</a>
                 </Button>
                 <div className='flex justify-center '>
-                  <Button variant='surface' type="submit" >
+                  {/* <Button variant='surface' type="submit" 
+                    onClick={() => register()}>
                     Register
-                  </Button>
+                  </Button> */}
+
+                <button
+                  type="button"
+                  onClick={() => register()}
+                  >
+                  Register
+                </button>
                 </div>
                 {error && <p>{error}</p>}
               </form>

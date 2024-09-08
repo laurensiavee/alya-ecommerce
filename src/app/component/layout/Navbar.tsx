@@ -10,7 +10,7 @@ export default function Navbar() {
         </Link>
         <div className=" mx-5 w-1/2 flex">
           <input type="text" placeholder="Search..." className="bg-white/70 border border-l-primary/40 text-l-text text-sm rounded-lg block w-full p-2.5" />
-          <button className="ms-5 rounded-xl p-3 px-5 bg-l-accent text-d-text font-bold hover:shadow-2xl hover:shadow-l-accent/70" onclick="onClickFilter()">
+          <button className="ms-5 rounded-xl p-3 px-5 bg-l-accent text-d-text font-bold hover:shadow-2xl hover:shadow-l-accent/70">
             Filter
           </button>
         </div>
