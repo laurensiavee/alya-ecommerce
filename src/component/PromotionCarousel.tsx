@@ -1,4 +1,4 @@
-import Title from "./base/Title";
+import Title from "../../component/base/Title";
 import { Carousel } from "flowbite-react";
 
 export default function PromotionCarousel() {

@@ -1,12 +1,12 @@
 'use client'
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import Card from '../component/base/Card';
-import Label from '../component/base/Label';
-import Title from '../component/base/Title';
+import Card from '../../component/base/Card';
+import Label from '../../component/base/Label';
+import Title from '../../component/base/Title';
 import { Button, Theme } from '@radix-ui/themes';
 import axios from "axios";
-import { API_DEV_URI, ACCESS_TOKEN } from '../const/token';
+import { API_DEV_URI, ACCESS_TOKEN } from '../../const/token';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
