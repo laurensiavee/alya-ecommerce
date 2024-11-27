@@ -6,7 +6,9 @@ import Label from '../../component/base/Label';
 import Title from '../../component/base/Title';
 import { Button, Theme } from '@radix-ui/themes';
 import axios from "axios";
-import { API_DEV_URI, ACCESS_TOKEN } from '../../const/token';
+// import { API_DEV_URI, ACCESS_TOKEN } from '../../const/token';
+import { PostRegisterReqBody } from '@/entities/auth/PostRegisterReq.interface';
+import { AuthService } from '@/services/auth/auth.service';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -17,27 +19,25 @@ const LoginPage = () => {
   const [address, setAddress] = useState('');
   const [error, setError] = useState<string | null>(null);
 
+  const authService = new AuthService();
+
   function register() {
-    console.log("bro")
-    const newUser = {
+    const body: PostRegisterReqBody = {
         username: username,
-        password: password,
-        fullname: fullname,
-        email: email,
-        phone: phone,
+        phone_number: phone,
         address: address,
+        name: fullname,
+        password: password,
+        email: email,
     }
 
-    const headers = { 'Authorization': ACCESS_TOKEN }; 
-
-    const uri = API_DEV_URI + 'register-users';
-    axios
-      .post(uri, newUser, { headers })
-      .then((res) => {
-        console.log(res)
-      })
-      .finally(() => {
-      });
+    authService.postRegister(body)
+    .then(() => {
+        console.log("Registration successful");
+    })
+    .catch((error) => {
+        console.error("Registration failed:", error);
+    });
   }
 
   return (
