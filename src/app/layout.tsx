@@ -4,6 +4,7 @@ import "./globals.css";
 import { Theme } from '@radix-ui/themes';
 import { SessionWrapper } from "@/utils/SessionWrapper"; 
 import Navbar from "@/component/layout/Navbar";
+import { StoreProvider } from "@/store/StoreProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,18 +19,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="bg-l-bg">
-        <Theme>
-          <Navbar />
-          <SessionWrapper>
-          <div className="m-5 p-5">
-            {children}
-          </div>
-          </SessionWrapper>
-        </Theme>
-        {/* <script src="../path/to/flowbite/dist/flowbite.min.js"></script> */}
-      </body>
-    </html>
+    <StoreProvider>
+      <html lang="en">
+        <body className="bg-l-bg">
+          <Theme>
+            <Navbar />
+            <SessionWrapper>
+            <div className="m-5 p-5">
+              {children}
+            </div>
+            </SessionWrapper>
+          </Theme>
+          {/* <script src="../path/to/flowbite/dist/flowbite.min.js"></script> */}
+        </body>
+      </html>
+    </StoreProvider>
   );
 }
