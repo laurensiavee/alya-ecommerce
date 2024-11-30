@@ -9,8 +9,18 @@ import axios from "axios";
 // import { API_DEV_URI, ACCESS_TOKEN } from '../../const/token';
 import { PostRegisterReqBody } from '@/entities/auth/PostRegisterReq.interface';
 import { AuthService } from '@/services/auth/auth.service';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage = () => {
+  const notify = (message: string, type: string) => {
+    if (type === "success") {
+      toast.success(message);
+    } else if (type === "error") {
+      toast.error(message);
+    } 
+  };
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [fullname, setFullname] = useState('');
@@ -33,15 +43,20 @@ const LoginPage = () => {
 
     authService.postRegister(body)
     .then((resp) => {
-        console.log(resp.message);
+      if(resp.status === 200)
+        notify(resp.message, "success")
+      else
+        notify(resp.message, "error")
     })
     .catch((error) => {
         console.error(error.message);
+        notify(error.message, "error")
     });
   }
 
   return (
     <>
+      <ToastContainer position="top-center"/>
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
         <div className='w-1/2 m-auto'>
           <Card>

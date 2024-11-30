@@ -12,17 +12,24 @@ export class AuthService {
 
         try {
             const response: AxiosResponse = await axios.post(url, body);
-            console.log("response");
-            console.log(response);
-            return response.data
+            return {
+                status: response.status,
+                message: response.data.message,
+                data: response.data.data
+            }
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                return error.response?.data
+                return {
+                    status: error.response?.status? error.response?.status: 0,
+                    message: error.response?.data.message,
+                    data: error.response?.data.data
+                }
             } else {
-                return { 
-                    data: "", 
-                    message: "An unexpected error occurred"
-                };
+                return {
+                    status: 0,
+                    message: "an error occured",
+                    data: ""
+                }
             }
         }
     }
