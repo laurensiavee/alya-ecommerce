@@ -32,11 +32,11 @@ const LoginPage = () => {
     }
 
     authService.postRegister(body)
-    .then(() => {
-        console.log("Registration successful");
+    .then((resp) => {
+        console.log(resp.message);
     })
     .catch((error) => {
-        console.error("Registration failed:", error);
+        console.error(error.message);
     });
   }
 
