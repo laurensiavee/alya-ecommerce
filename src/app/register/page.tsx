@@ -154,7 +154,7 @@ const RegisterPage = () => {
                   </button>
                 </div>
                 <a href='/login'>
-                  <div className='text-end text-l-text-secondary hover:underline'>
+                  <div className='mt-2 text-end text-l-text-secondary hover:underline'>
                     Already has an account? Login instead 
                   </div>
                 </a>

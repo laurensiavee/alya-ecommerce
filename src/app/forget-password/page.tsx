@@ -5,12 +5,27 @@ import Label from '../../component/base/Label';
 import Title from '../../component/base/Title';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSession } from 'next-auth/react';
+import { AuthService } from '@/services/auth/auth.service';
+import { toast, ToastContainer } from 'react-toastify';
+import { PostForgetPasswordReqBody } from '@/entities/auth/PostForgetPasswordReq.interface';
+import LoadingScreen from '@/component/base/LoadingScreen';
 
 
 const ForgetPasswordPage = () => {
   const [email, setEmail] = useState('');
-
+  const [isLoading, setLoading] = useState(false);
+  
   const { data: session, status } = useSession();
+
+  const authService = new AuthService();
+
+  const notify = (message: string, type: string) => {
+    if (type === "success") {
+      toast.success(message);
+    } else if (type === "error") {
+      toast.error(message);
+    } 
+  };
 
   useEffect(()=>{
     console.log('Session Status:', status);
@@ -32,14 +47,38 @@ const ForgetPasswordPage = () => {
       window.location.href='/';
     }   
   },[session,status]);
+
+  function forgetPassword() {
+    setLoading(true)
+    const body: PostForgetPasswordReqBody = {
+        email: email,
+    }
+
+    authService.postForgetPassword(body)
+    .then((resp) => {
+      if(resp.status === 200)
+        notify(resp.message, "success")
+      else
+        notify(resp.message, "error")
+    })
+    .catch((error) => {
+      notify(error.message, "error")
+      console.error(error.message);
+    }).finally(() => {
+      setLoading(false)
+    });
+  }
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    forgetPassword()
   };
 
   return (
     <> 
+      {isLoading && <LoadingScreen  />}
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
+        <ToastContainer position="top-center"/>
         <div className='w-1/3 m-auto'>
           <Card>
             <div>

@@ -156,7 +156,7 @@ const LoginPage = () => {
                   </div>
                 </div>
                 <a href='/forget-password'>
-                  <div className='text-end text-l-text-secondary hover:underline'>
+                  <div className='mt-2 text-end text-l-text-secondary hover:underline'>
                     Forget Password? 
                   </div>
                 </a>
