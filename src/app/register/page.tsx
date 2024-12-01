@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Card from '../../component/base/Card';
 import Label from '../../component/base/Label';
 import Title from '../../component/base/Title';
@@ -9,10 +9,33 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation'
 import LoadingScreen from '@/component/base/LoadingScreen';
+import { useSession } from 'next-auth/react';
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const router = useRouter();
+  const { data: session, status } = useSession();
 
+  useEffect(()=>{
+    console.log('Session Status:', status);
+    console.log('Session Data:', session);
+    
+    if(status === 'authenticated' ){
+      const access_token = session?.accessToken
+      const user = session?.user
+      console.log(access_token);
+      console.log(user)
+      if(access_token){
+        sessionStorage.setItem('access_token',access_token)
+      }
+
+      if(user){
+        sessionStorage.setItem('user_data',JSON.stringify(user));
+      }
+
+      window.location.href='/';
+    }   
+  },[session,status]);
+  
   const notify = (message: string, type: string) => {
     if (type === "success") {
       toast.success(message);
@@ -32,11 +55,6 @@ const LoginPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   const authService = new AuthService();
-
-  
-  function login() {
-    router.push('/login')
-  }
 
   function register() {
     setLoading(true)
@@ -169,4 +187,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

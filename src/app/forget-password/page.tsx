@@ -1,13 +1,37 @@
 'use client'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Card from '../../component/base/Card';
 import Label from '../../component/base/Label';
 import Title from '../../component/base/Title';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSession } from 'next-auth/react';
 
 
 const ForgetPasswordPage = () => {
   const [email, setEmail] = useState('');
+
+  const { data: session, status } = useSession();
+
+  useEffect(()=>{
+    console.log('Session Status:', status);
+    console.log('Session Data:', session);
+    
+    if(status === 'authenticated' ){
+      const access_token = session?.accessToken
+      const user = session?.user
+      console.log(access_token);
+      console.log(user)
+      if(access_token){
+        sessionStorage.setItem('access_token',access_token)
+      }
+
+      if(user){
+        sessionStorage.setItem('user_data',JSON.stringify(user));
+      }
+
+      window.location.href='/';
+    }   
+  },[session,status]);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
