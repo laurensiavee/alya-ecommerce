@@ -6,68 +6,111 @@ import Label from '../../component/base/Label';
 import Title from '../../component/base/Title';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSession } from 'next-auth/react';
+// import { useSession } from 'next-auth/react';
+import { PostLoginReqBody } from '@/entities/auth/PostLoginReq.interface';
+import { AuthService } from '@/services/auth/auth.service';
+import LoadingScreen from '@/component/base/LoadingScreen';
 
 
 const LoginPage = () => {
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   
-  useEffect(()=>{
-    console.log('Session Status:', status);
-    console.log('Session Data:', session);
+  const [isLoading, setLoading] = useState(false);
+
+  const notify = (message: string, type: string) => {
+    if (type === "success") {
+      toast.success(message);
+    } else if (type === "error") {
+      toast.error(message);
+    } 
+  };
+
+  // useEffect(()=>{
+  //   console.log('Session Status:', status);
+  //   console.log('Session Data:', session);
     
-    if(status === 'authenticated' ){
-      const access_token = session?.accessToken
-      const user = session?.user
-      console.log(access_token);
-      console.log(user)
-      if(access_token){
-        sessionStorage.setItem('access_token',access_token)
-      }
+  //   if(status === 'authenticated' ){
+  //     const access_token = session?.accessToken
+  //     const user = session?.user
+  //     console.log(access_token);
+  //     console.log(user)
+  //     if(access_token){
+  //       sessionStorage.setItem('access_token',access_token)
+  //     }
 
-      if(user){
-        sessionStorage.setItem('user_data',JSON.stringify(user));
-      }
+  //     if(user){
+  //       sessionStorage.setItem('user_data',JSON.stringify(user));
+  //     }
 
-      window.location.href='/';
-    }   
-  },[session,status]);
+  //     window.location.href='/';
+  //   }   
+  // },[session,status]);
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+
+    // const result = await signIn('credentials', {
+    //   redirect: true,
+    //   username,
+    //   password
+    // });
+
+    // if (result?.error) {
+    //   console.log("Login: "+result?.error)
+    //   toast.error(result?.error, {
+    //     position: "top-right",
+    //     autoClose: 2000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //     transition: Bounce,
+    //   });
+    // }
+    // else {
+    //   // console.log("Session: "+session,"Status: "+status)
+    //   // window.location.href = "/"
+    // }
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    login()
+  }
 
-    const result = await signIn('credentials', {
-      redirect: true,
-      username,
-      password
+  const authService = new AuthService();
+  
+  function login() {
+    setLoading(true)
+    const body: PostLoginReqBody = {
+        username: username,
+        password: password,
+    }
+
+    authService.postLogin(body)
+    .then((resp) => {
+      if(resp.status === 200)
+        notify(resp.message, "success")
+      else
+        notify(resp.message, "error")
+    })
+    .catch((error) => {
+      notify(error.message, "error")
+      console.error(error.message);
+    }).finally(() => {
+      setLoading(false)
     });
-
-    if (result?.error) {
-      console.log("Login: "+result?.error)
-      toast.error(result?.error, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-    }
-    else {
-      // console.log("Session: "+session,"Status: "+status)
-      // window.location.href = "/"
-    }
-  };
+  }
 
   return (
     <> 
+      {isLoading && <LoadingScreen  />}
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
-        <ToastContainer />
+        <ToastContainer position="top-center"/>
         <div className='w-1/3 m-auto'>
           <Card>
             <div>
@@ -105,9 +148,12 @@ const LoginPage = () => {
                       Register
                     </button>
                   </a>
-                  <button className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
-                    Login
-                  </button>
+                  <div className='flex justify-center '
+                    onClick={() => login()}>
+                    <button className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
+                      Login
+                    </button>
+                  </div>
                 </div>
                 <a href='/forget-password'>
                   <div className='text-end text-l-text-secondary hover:underline'>

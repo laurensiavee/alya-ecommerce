@@ -9,33 +9,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation'
 import LoadingScreen from '@/component/base/LoadingScreen';
-import { useSession } from 'next-auth/react';
 
 const RegisterPage = () => {
   const router = useRouter();
-  const { data: session, status } = useSession();
 
-  useEffect(()=>{
-    console.log('Session Status:', status);
-    console.log('Session Data:', session);
-    
-    if(status === 'authenticated' ){
-      const access_token = session?.accessToken
-      const user = session?.user
-      console.log(access_token);
-      console.log(user)
-      if(access_token){
-        sessionStorage.setItem('access_token',access_token)
-      }
-
-      if(user){
-        sessionStorage.setItem('user_data',JSON.stringify(user));
-      }
-
-      window.location.href='/';
-    }   
-  },[session,status]);
-  
   const notify = (message: string, type: string) => {
     if (type === "success") {
       toast.success(message);
@@ -82,6 +59,11 @@ const RegisterPage = () => {
     });
   }
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    register();
+  }
+
   return (
     <>
     {isLoading && <LoadingScreen  />}
@@ -93,7 +75,7 @@ const RegisterPage = () => {
               <img src="https://static.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/p1/1053/2024/06/23/Anime-Tokidoki-Bosotto-Rushiago-de-Dareru-Tonari-no-Alya-san-4097435345.jpg" 
                 alt="alya" className='object-cover h-[10rem] w-full'></img>
               <Title className="my-3 align-middle text-center">Register</Title>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className='mb-3'>
                   <Label>Username</Label>
                   <input
@@ -109,7 +91,7 @@ const RegisterPage = () => {
                 <div className='mb-3'>
                   <Label>Password</Label>
                   <input
-                    placeholder="passport" 
+                    placeholder="password" 
                     className="bg-white border border-l-secondary/60 text-l-text text-sm rounded-lg block w-full p-2.5"
                     id="password"
                     type="password"
@@ -166,9 +148,8 @@ const RegisterPage = () => {
                     required
                   />
                 </div>
-                <div className='flex justify-center '
-                  onClick={() => register()}>
-                  <button className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
+                <div className='flex justify-center'>
+                  <button type='submit' className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
                     Register
                   </button>
                 </div>
