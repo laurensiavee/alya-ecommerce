@@ -100,13 +100,18 @@ const LoginPage = () => {
                     required
                   />
                 </div>
-                <Button color="crimson" variant="soft">
-                  <a href="/register">Register</a>
-                </Button>
-                <div className='flex justify-center '>
-                  <Button variant='surface' type="submit" className="rounded-xl p-3 px-5 my-2 bg-gradient-to-br from-l-secondary to-l-accent text-d-text font-bold hover:from-l-accent hover:to-l-secondary hover:shadow-2xl hover:shadow-l-secondary/50">
+                <div className='flex justify-center'>
+                  <a href="/register">
+                    <button type="button" className="rounded-xl py-2 px-5 me-2 bg-gradient-to-br from-l-secondary to-l-accent text-d-text font-bold hover:from-l-accent hover:to-l-secondary hover:shadow-2xl hover:shadow-l-secondary/50">
+                      Register
+                    </button>
+                  </a>
+                  <button className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
                     Login
-                  </Button>
+                  </button>
+                </div>
+                <div className='text-end text-l-text-secondary hover:underline'>
+                  Forget Password? 
                 </div>
               </form>
             </div>

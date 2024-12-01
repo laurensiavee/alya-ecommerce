@@ -1,19 +1,14 @@
 'use client'
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
 import Card from '../../component/base/Card';
 import Label from '../../component/base/Label';
 import Title from '../../component/base/Title';
-import { Button, Theme } from '@radix-ui/themes';
-import axios from "axios";
-// import { API_DEV_URI, ACCESS_TOKEN } from '../../const/token';
 import { PostRegisterReqBody } from '@/entities/auth/PostRegisterReq.interface';
 import { AuthService } from '@/services/auth/auth.service';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation'
 import LoadingScreen from '@/component/base/LoadingScreen';
-
 
 const LoginPage = () => {
   const router = useRouter();
@@ -153,20 +148,17 @@ const LoginPage = () => {
                     required
                   />
                 </div>
-                <button
-                  type="button"
-                  onClick={() => login()}
-                  >
-                  Login
-                </button>
-                <div className='flex justify-center '>
-                <button
-                  type="button"
-                  onClick={() => register()}
-                  >
-                  Register
-                </button>
+                <div className='flex justify-center '
+                  onClick={() => register()}>
+                  <button className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
+                    Register
+                  </button>
                 </div>
+                <a href='/login'>
+                  <div className='text-end text-l-text-secondary hover:underline'>
+                    Already has an account? Login instead 
+                  </div>
+                </a>
                 {error && <p>{error}</p>}
               </form>
             </div>
