@@ -6,7 +6,6 @@ import Label from '../../component/base/Label';
 import Title from '../../component/base/Title';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Button } from '@radix-ui/themes';
 import { useSession } from 'next-auth/react';
 
 
@@ -110,9 +109,11 @@ const LoginPage = () => {
                     Login
                   </button>
                 </div>
-                <div className='text-end text-l-text-secondary hover:underline'>
-                  Forget Password? 
-                </div>
+                <a href='/forget-password'>
+                  <div className='text-end text-l-text-secondary hover:underline'>
+                    Forget Password? 
+                  </div>
+                </a>
               </form>
             </div>
           </Card>
