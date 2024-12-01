@@ -11,15 +11,22 @@ import { PostRegisterReqBody } from '@/entities/auth/PostRegisterReq.interface';
 import { AuthService } from '@/services/auth/auth.service';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation'
+import LoadingScreen from '@/component/base/LoadingScreen';
+
 
 const LoginPage = () => {
+  const router = useRouter();
+
   const notify = (message: string, type: string) => {
     if (type === "success") {
       toast.success(message);
+      router.push('/login')
     } else if (type === "error") {
       toast.error(message);
     } 
   };
+  const [isLoading, setLoading] = useState(false);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -31,7 +38,13 @@ const LoginPage = () => {
 
   const authService = new AuthService();
 
+  
+  function login() {
+    router.push('/login')
+  }
+
   function register() {
+    setLoading(true)
     const body: PostRegisterReqBody = {
         username: username,
         phone_number: phone,
@@ -49,13 +62,16 @@ const LoginPage = () => {
         notify(resp.message, "error")
     })
     .catch((error) => {
-        console.error(error.message);
-        notify(error.message, "error")
+      notify(error.message, "error")
+      console.error(error.message);
+    }).finally(() => {
+      setLoading(false)
     });
   }
 
   return (
     <>
+    {isLoading && <LoadingScreen  />}
       <ToastContainer position="top-center"/>
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
         <div className='w-1/2 m-auto'>
@@ -137,15 +153,13 @@ const LoginPage = () => {
                     required
                   />
                 </div>
-                <Button color="crimson" variant="soft">
-                  <a href="/login">Login</a>
-                </Button>
+                <button
+                  type="button"
+                  onClick={() => login()}
+                  >
+                  Login
+                </button>
                 <div className='flex justify-center '>
-                  {/* <Button variant='surface' type="submit" 
-                    onClick={() => register()}>
-                    Register
-                  </Button> */}
-
                 <button
                   type="button"
                   onClick={() => register()}
