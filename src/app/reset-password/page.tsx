@@ -20,12 +20,14 @@ const ResetPasswordPage = () => {
   const [isTokenValidated, setTokenValidated] = useState(false);
   
   const { data: session, status } = useSession();
+  const router = useRouter();
 
   const authService = new AuthService();
 
   const notify = (message: string, type: string) => {
     if (type === "success") {
       toast.success(message);
+      router.push('/login')
     } else if (type === "error") {
       toast.error(message);
     } 
