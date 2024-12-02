@@ -6,12 +6,11 @@ import Title from '../../component/base/Title';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSession } from 'next-auth/react';
 import { AuthService } from '@/services/auth/auth.service';
-import { toast, ToastContainer } from 'react-toastify';
-import { PostForgetPasswordReqBody } from '@/entities/auth/PostForgetPasswordReq.interface';
 import LoadingScreen from '@/component/base/LoadingScreen';
 import { PostResetPasswordReqBody } from '@/entities/auth/PostResetPasswordReqBody.interface';
 import { PostCheckPasswordTokenReqBody } from '@/entities/auth/PostCheckPasswordTokenReq.interface';
 import { useRouter } from 'next/navigation';
+import { showToast } from '@/utils/toastNotify';
 
 const ResetPasswordPage = () => {
   const [token, setToken] = useState('');
@@ -23,16 +22,6 @@ const ResetPasswordPage = () => {
   const router = useRouter();
 
   const authService = new AuthService();
-
-  const notify = (message: string, type: string) => {
-    if (type === "success") {
-      toast.success(message);
-      router.push('/login')
-    } else if (type === "error") {
-      toast.error(message);
-    } 
-  };
-
   
 //   const router = useRouter();
 //   const { tokenUrl } = router.query;
@@ -75,15 +64,15 @@ const ResetPasswordPage = () => {
         authService.postCheckPasswordToken(body)
         .then((resp) => {
           if(resp.status === 200){
-            notify(resp.message, "success")
+            showToast(resp.message, "success")
             setTokenValidated(true)
           }
           else
-            notify(resp.message, "error")
+            showToast(resp.message, "error")
         })
         .catch((error) => {
-          notify(error.message, "error")
-          console.error(error.message);
+            showToast(error.message, "error")
+            console.error(error.message);
         }).finally(() => {
           setLoading(false)
         });
@@ -98,13 +87,15 @@ const ResetPasswordPage = () => {
 
     authService.postResetPassword(body)
     .then((resp) => {
-      if(resp.status === 200)
-        notify(resp.message, "success")
+      if(resp.status === 200){
+        showToast(resp.message, "success")
+        router.push('/login')
+      }
       else
-        notify(resp.message, "error")
+        showToast(resp.message, "error")
     })
     .catch((error) => {
-      notify(error.message, "error")
+        showToast(error.message, "error")
       console.error(error.message);
     }).finally(() => {
       setLoading(false)
@@ -120,7 +111,6 @@ const ResetPasswordPage = () => {
     <> 
       {isLoading && <LoadingScreen  />}
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
-        <ToastContainer position="top-center"/>
         <div className='w-1/3 m-auto'>
           <Card>
             {isTokenValidated && 

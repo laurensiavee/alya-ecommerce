@@ -6,9 +6,10 @@ import Title from '../../component/base/Title';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSession } from 'next-auth/react';
 import { AuthService } from '@/services/auth/auth.service';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { PostForgetPasswordReqBody } from '@/entities/auth/PostForgetPasswordReq.interface';
 import LoadingScreen from '@/component/base/LoadingScreen';
+import { showToast } from '@/utils/toastNotify';
 
 
 const ForgetPasswordPage = () => {
@@ -18,14 +19,6 @@ const ForgetPasswordPage = () => {
   const { data: session, status } = useSession();
 
   const authService = new AuthService();
-
-  const notify = (message: string, type: string) => {
-    if (type === "success") {
-      toast.success(message);
-    } else if (type === "error") {
-      toast.error(message);
-    } 
-  };
 
   useEffect(()=>{
     console.log('Session Status:', status);
@@ -57,12 +50,12 @@ const ForgetPasswordPage = () => {
     authService.postForgetPassword(body)
     .then((resp) => {
       if(resp.status === 200)
-        notify(resp.message, "success")
+        showToast(resp.message, "success")
       else
-        notify(resp.message, "error")
+        showToast(resp.message, "error")
     })
     .catch((error) => {
-      notify(error.message, "error")
+      showToast(error.message, "error")
       console.error(error.message);
     }).finally(() => {
       setLoading(false)
@@ -78,7 +71,6 @@ const ForgetPasswordPage = () => {
     <> 
       {isLoading && <LoadingScreen  />}
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
-        <ToastContainer position="top-center"/>
         <div className='w-1/3 m-auto'>
           <Card>
             <div>

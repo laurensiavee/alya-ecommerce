@@ -5,22 +5,15 @@ import Label from '../../component/base/Label';
 import Title from '../../component/base/Title';
 import { PostRegisterReqBody } from '@/entities/auth/PostRegisterReq.interface';
 import { AuthService } from '@/services/auth/auth.service';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation'
 import LoadingScreen from '@/component/base/LoadingScreen';
+import { showToast } from '@/utils/toastNotify';
 
 const RegisterPage = () => {
   const router = useRouter();
 
-  const notify = (message: string, type: string) => {
-    if (type === "success") {
-      toast.success(message);
-      router.push('/login')
-    } else if (type === "error") {
-      toast.error(message);
-    } 
-  };
   const [isLoading, setLoading] = useState(false);
 
   const [username, setUsername] = useState('');
@@ -46,13 +39,15 @@ const RegisterPage = () => {
 
     authService.postRegister(body)
     .then((resp) => {
-      if(resp.status === 200)
-        notify(resp.message, "success")
+      if(resp.status === 200){
+        showToast(resp.message, "success")
+        router.push('/login')
+      }
       else
-        notify(resp.message, "error")
+        showToast(resp.message, "error")
     })
     .catch((error) => {
-      notify(error.message, "error")
+      showToast(error.message, "error")
       console.error(error.message);
     }).finally(() => {
       setLoading(false)
@@ -67,7 +62,6 @@ const RegisterPage = () => {
   return (
     <>
     {isLoading && <LoadingScreen  />}
-      <ToastContainer position="top-center"/>
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
         <div className='w-1/2 m-auto'>
           <Card>

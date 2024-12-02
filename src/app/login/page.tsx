@@ -1,15 +1,15 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { signIn } from 'next-auth/react';
 import Card from '../../component/base/Card';
 import Label from '../../component/base/Label';
 import Title from '../../component/base/Title';
-import { Bounce, toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import { useSession } from 'next-auth/react';
 import { PostLoginReqBody } from '@/entities/auth/PostLoginReq.interface';
 import { AuthService } from '@/services/auth/auth.service';
 import LoadingScreen from '@/component/base/LoadingScreen';
+import { showToast } from '@/utils/toastNotify';
+import { useRouter } from 'next/navigation';
 
 
 const LoginPage = () => {
@@ -18,14 +18,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   
   const [isLoading, setLoading] = useState(false);
-
-  const notify = (message: string, type: string) => {
-    if (type === "success") {
-      toast.success(message);
-    } else if (type === "error") {
-      toast.error(message);
-    } 
-  };
 
   // useEffect(()=>{
   //   console.log('Session Status:', status);
@@ -84,6 +76,8 @@ const LoginPage = () => {
 
   const authService = new AuthService();
   
+  const router = useRouter();
+
   function login() {
     setLoading(true)
     const body: PostLoginReqBody = {
@@ -93,13 +87,15 @@ const LoginPage = () => {
 
     authService.postLogin(body)
     .then((resp) => {
-      if(resp.status === 200)
-        notify(resp.message, "success")
+      if(resp.status === 200){
+        showToast(resp.message, "success")
+        router.push('/')
+      }
       else
-        notify(resp.message, "error")
+        showToast(resp.message, "error")
     })
     .catch((error) => {
-      notify(error.message, "error")
+      showToast(error.message, "error")
       console.error(error.message);
     }).finally(() => {
       setLoading(false)
@@ -110,7 +106,6 @@ const LoginPage = () => {
     <> 
       {isLoading && <LoadingScreen  />}
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
-        <ToastContainer position="top-center"/>
         <div className='w-1/3 m-auto'>
           <Card>
             <div>

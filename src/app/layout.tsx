@@ -5,6 +5,7 @@ import { Theme } from '@radix-ui/themes';
 import { SessionWrapper } from "@/utils/SessionWrapper"; 
 import Navbar from "@/component/layout/Navbar";
 import { StoreProvider } from "@/store/StoreProvider";
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,9 +26,10 @@ export default function RootLayout({
           <Theme>
             <Navbar />
             <SessionWrapper>
-            <div className="m-5 p-5">
-              {children}
-            </div>
+              <ToastContainer position="top-center"/>
+              <div className="m-5 p-5">
+                {children}
+              </div>
             </SessionWrapper>
           </Theme>
           {/* <script src="../path/to/flowbite/dist/flowbite.min.js"></script> */}
