@@ -6,6 +6,7 @@ import { showToast } from '@/utils/toastNotify';
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { setToken } from "@/store/authSlice";
 
 export default function Navbar() {
 
@@ -19,6 +20,7 @@ export default function Navbar() {
 
   const router = useRouter();
   const token = useSelector((state: RootState) => state.auth.token)
+  const dispatch = useDispatch()
 
   function logout() {
     setLoading(true)
@@ -27,6 +29,7 @@ export default function Navbar() {
     .then((resp) => {
       if(resp.status === 200){
         showToast(resp.message, "success")
+        dispatch(setToken(""))
         router.push('/')
       }
       else
