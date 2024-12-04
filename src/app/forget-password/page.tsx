@@ -6,7 +6,6 @@ import Title from '../../component/base/Title';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSession } from 'next-auth/react';
 import { AuthService } from '@/services/auth/auth.service';
-import { toast } from 'react-toastify';
 import { PostForgetPasswordReqBody } from '@/entities/auth/PostForgetPasswordReq.interface';
 import LoadingScreen from '@/component/base/LoadingScreen';
 import { showToast } from '@/utils/toastNotify';

@@ -10,6 +10,9 @@ import { AuthService } from '@/services/auth/auth.service';
 import LoadingScreen from '@/component/base/LoadingScreen';
 import { showToast } from '@/utils/toastNotify';
 import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { setToken } from '@/store/authSlice';
+import { RootState } from '@/store/store';
 
 
 const LoginPage = () => {
@@ -77,7 +80,8 @@ const LoginPage = () => {
   const authService = new AuthService();
   
   const router = useRouter();
-
+  const dispatch = useDispatch()
+  
   function login() {
     setLoading(true)
     const body: PostLoginReqBody = {
@@ -89,6 +93,7 @@ const LoginPage = () => {
     .then((resp) => {
       if(resp.status === 200){
         showToast(resp.message, "success")
+        dispatch(setToken(resp.data))
         router.push('/')
       }
       else
