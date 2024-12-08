@@ -1,5 +1,5 @@
-export interface BaseResp {
+export interface BaseResp<T = null> {
     status: number;
     message: string;
-    data: any;
+    data?: T;
 }

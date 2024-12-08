@@ -10,84 +10,30 @@ import { PostCheckPasswordTokenReqBody } from "@/entities/auth/PostCheckPassword
 const base_url = API_DEV_URI + `auth/`;
 
 export class AuthService {
-    async postRegister(body: PostRegisterReqBody): Promise<BaseResp> {
-        const url = base_url + `register/`;
-
+    async postRegister(body: PostRegisterReqBody): Promise<BaseResp<string>> {
         try {
-            const response: AxiosResponse = await axios.post(url, body);
-            return {
-                status: response.status,
-                message: response.data.message,
-                data: response.data.data
-            }
+            const response: AxiosResponse = await axios.post(base_url + `register/`, body);
+            return this.responseMapper<string>(response)
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return {
-                    status: error.response?.status? error.response?.status: 0,
-                    message: error.response?.data.message,
-                    data: error.response?.data.data
-                }
-            } else {
-                return {
-                    status: 0,
-                    message: "an error occured",
-                    data: ""
-                }
-            }
+            return this.handleErrorResponse(error);
         }
     }
     
-    async postLogin(body: PostLoginReqBody): Promise<BaseResp> {
-        const url = base_url + `login/`;
-
+    async postLogin(body: PostLoginReqBody): Promise<BaseResp<string>> {
         try {
-            const response: AxiosResponse = await axios.post(url, body);
-            return {
-                status: response.status,
-                message: response.data.message,
-                data: response.data.data
-            }
+            const response: AxiosResponse = await axios.post(base_url + `login/`, body);
+            return this.responseMapper<string>(response)
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return {
-                    status: error.response?.status? error.response?.status: 0,
-                    message: error.response?.data.message,
-                    data: error.response?.data.data
-                }
-            } else {
-                return {
-                    status: 0,
-                    message: "an error occured",
-                    data: ""
-                }
-            }
+            return this.handleErrorResponse(error);
         }
     }
 
-    async postForgetPassword(body: PostForgetPasswordReqBody): Promise<BaseResp> {
-        const url = base_url + `forgot-password/`;
-
+    async postForgetPassword(body: PostForgetPasswordReqBody): Promise<BaseResp<string>> {
         try {
-            const response: AxiosResponse = await axios.post(url, body);
-            return {
-                status: response.status,
-                message: response.data.message,
-                data: response.data.data
-            }
+            const response: AxiosResponse = await axios.post(base_url + `forgot-password/`, body);
+            return this.responseMapper<string>(response)
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return {
-                    status: error.response?.status? error.response?.status: 0,
-                    message: error.response?.data.message,
-                    data: error.response?.data.data
-                }
-            } else {
-                return {
-                    status: 0,
-                    message: "an error occured",
-                    data: ""
-                }
-            }
+            return this.handleErrorResponse(error);
         }
     }
 
@@ -96,56 +42,22 @@ export class AuthService {
 
         try {
             const response: AxiosResponse = await axios.post(url, body);
-            return {
-                status: response.status,
-                message: response.data.message,
-                data: response.data.data
-            }
+            return this.responseMapper(response)
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return {
-                    status: error.response?.status? error.response?.status: 0,
-                    message: error.response?.data.message,
-                    data: error.response?.data.data
-                }
-            } else {
-                return {
-                    status: 0,
-                    message: "an error occured",
-                    data: ""
-                }
-            }
+            return this.handleErrorResponse(error);
         }
     }
 
-    async postResetPassword(body: PostResetPasswordReqBody): Promise<BaseResp> {
-        const url = base_url + `reset-password/`;
-
+    async postResetPassword(body: PostResetPasswordReqBody): Promise<BaseResp<string>> {
         try {
-            const response: AxiosResponse = await axios.post(url, body);
-            return {
-                status: response.status,
-                message: response.data.message,
-                data: response.data.data
-            }
+            const response: AxiosResponse = await axios.post(base_url + `reset-password/`, body);
+            return this.responseMapper<string>(response)
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return {
-                    status: error.response?.status? error.response?.status: 0,
-                    message: error.response?.data.message,
-                    data: error.response?.data.data
-                }
-            } else {
-                return {
-                    status: 0,
-                    message: "an error occured",
-                    data: ""
-                }
-            }
+            return this.handleErrorResponse(error);
         }
     }
 
-    async postLogout(token: string): Promise<BaseResp> {
+    async postLogout(token: string): Promise<BaseResp<string>> {
         const url = base_url + `logout/`;
 
         const config = {
@@ -156,25 +68,34 @@ export class AuthService {
 
         try {
             const response: AxiosResponse = await axios.post(url, "", config);
-            return {
-                status: response.status,
-                message: response.data.message,
-                data: response.data.data
-            }
+            return this.responseMapper<string>(response)
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return {
-                    status: error.response?.status? error.response?.status: 0,
-                    message: error.response?.data.message,
-                    data: error.response?.data.data
-                }
-            } else {
-                return {
-                    status: 0,
-                    message: "an error occured",
-                    data: ""
-                }
-            }
+            return this.handleErrorResponse(error);
         }
+    }
+
+    private handleErrorResponse(error: any): BaseResp<string> {
+        if (axios.isAxiosError(error)) {
+            return {
+                status: error.response?.status || 0,
+                message: error.response?.data.message,
+                data: error.response?.data.data
+            };
+        }
+
+        return {
+            status: 0,
+            message: "an error occurred",
+            data: ""
+        };
+    }
+
+    private responseMapper<T = null>(response: AxiosResponse): BaseResp<T> {
+        const baseResp: BaseResp<T> = {
+            status: response.status,
+            message: response.data.message,
+            data: response.data.data
+        }
+        return baseResp
     }
 }

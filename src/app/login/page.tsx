@@ -4,69 +4,16 @@ import Card from '../../component/base/Card';
 import Label from '../../component/base/Label';
 import Title from '../../component/base/Title';
 import 'react-toastify/dist/ReactToastify.css';
-// import { useSession } from 'next-auth/react';
 import { PostLoginReqBody } from '@/entities/auth/PostLoginReq.interface';
 import { AuthService } from '@/services/auth/auth.service';
-import LoadingScreen from '@/component/base/LoadingScreen';
 import { showToast } from '@/utils/toastNotify';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setToken } from '@/store/authSlice';
 
 const LoginPage = () => {
-  // const { data: session, status } = useSession();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  // useEffect(()=>{
-  //   console.log('Session Status:', status);
-  //   console.log('Session Data:', session);
-    
-  //   if(status === 'authenticated' ){
-  //     const access_token = session?.accessToken
-  //     const user = session?.user
-  //     console.log(access_token);
-  //     console.log(user)
-  //     if(access_token){
-  //       sessionStorage.setItem('access_token',access_token)
-  //     }
-
-  //     if(user){
-  //       sessionStorage.setItem('user_data',JSON.stringify(user));
-  //     }
-
-  //     window.location.href='/';
-  //   }   
-  // },[session,status]);
-
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-
-    // const result = await signIn('credentials', {
-    //   redirect: true,
-    //   username,
-    //   password
-    // });
-
-    // if (result?.error) {
-    //   console.log("Login: "+result?.error)
-    //   toast.error(result?.error, {
-    //     position: "top-right",
-    //     autoClose: 2000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //     transition: Bounce,
-    //   });
-    // }
-    // else {
-    //   // console.log("Session: "+session,"Status: "+status)
-    //   // window.location.href = "/"
-    // }
-  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,7 +36,7 @@ const LoginPage = () => {
     .then((resp) => {
       if(resp.status === 200){
         showToast(resp.message, "success")
-        dispatch(setToken(resp.data))
+        dispatch(setToken(resp.data ? resp.data: ""))
         router.push('/')
       }
       else
@@ -102,6 +49,15 @@ const LoginPage = () => {
       dispatch(setLoading(false))
     });
   }
+
+  // function add(num1: number, num2: number): number{
+  //   return String(num1 + num2)
+  // }
+
+  // function tes() {
+  //   const hasil: number = add(1,2)
+    
+  // }
 
   return (
     <> 
