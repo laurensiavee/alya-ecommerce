@@ -11,14 +11,12 @@ import LoadingScreen from '@/component/base/LoadingScreen';
 import { showToast } from '@/utils/toastNotify';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { setToken } from '@/store/authSlice';
+import { setLoading, setToken } from '@/store/authSlice';
 
 const LoginPage = () => {
   // const { data: session, status } = useSession();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  
-  const [isLoading, setLoading] = useState(false);
 
   // useEffect(()=>{
   //   console.log('Session Status:', status);
@@ -81,7 +79,7 @@ const LoginPage = () => {
   const dispatch = useDispatch()
   
   function login() {
-    setLoading(true)
+    dispatch(setLoading(true))
     const body: PostLoginReqBody = {
         username: username,
         password: password,
@@ -101,13 +99,12 @@ const LoginPage = () => {
       showToast(error.message, "error")
       console.error(error.message);
     }).finally(() => {
-      setLoading(false)
+      dispatch(setLoading(false))
     });
   }
 
   return (
     <> 
-      {isLoading && <LoadingScreen  />}
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
         <div className='w-1/3 m-auto'>
           <Card>

@@ -9,11 +9,12 @@ import { AuthService } from '@/services/auth/auth.service';
 import { PostForgetPasswordReqBody } from '@/entities/auth/PostForgetPasswordReq.interface';
 import LoadingScreen from '@/component/base/LoadingScreen';
 import { showToast } from '@/utils/toastNotify';
+import { setLoading } from '@/store/authSlice';
+import { useDispatch } from 'react-redux';
 
 
 const ForgetPasswordPage = () => {
   const [email, setEmail] = useState('');
-  const [isLoading, setLoading] = useState(false);
   
   const { data: session, status } = useSession();
 
@@ -40,8 +41,10 @@ const ForgetPasswordPage = () => {
     }   
   },[session,status]);
 
+  const dispatch = useDispatch()
+
   function forgetPassword() {
-    setLoading(true)
+    dispatch(setLoading(true))
     const body: PostForgetPasswordReqBody = {
         email: email,
     }
@@ -57,7 +60,7 @@ const ForgetPasswordPage = () => {
       showToast(error.message, "error")
       console.error(error.message);
     }).finally(() => {
-      setLoading(false)
+      dispatch(setLoading(false))
     });
   }
   
@@ -68,7 +71,6 @@ const ForgetPasswordPage = () => {
 
   return (
     <> 
-      {isLoading && <LoadingScreen  />}
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
         <div className='w-1/3 m-auto'>
           <Card>

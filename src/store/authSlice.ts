@@ -26,13 +26,17 @@ export const authSlice = createSlice({
         },
         setLoggedIn:(state, action: PayloadAction<boolean>) => {
             state.isLoggedIn = action.payload
+        }, 
+        setLoading:(state, action: PayloadAction<boolean>) => {
+            state.isLoading = action.payload
         } 
     }
 })
 
-export const {setToken, setLoggedIn} = authSlice.actions
+export const {setToken, setLoggedIn, setLoading} = authSlice.actions
 
 export const selectToken = (state: RootState) => state.auth.token
 export const selectLoggedIn = (state: RootState) => state.auth.isLoggedIn
+export const selectLoading = (state: RootState) => state.auth.isLoading
 
 export default authSlice.reducer

@@ -10,11 +10,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation'
 import LoadingScreen from '@/component/base/LoadingScreen';
 import { showToast } from '@/utils/toastNotify';
+import { setLoading } from '@/store/authSlice';
+import { useDispatch } from 'react-redux';
 
 const RegisterPage = () => {
   const router = useRouter();
-
-  const [isLoading, setLoading] = useState(false);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,9 +25,10 @@ const RegisterPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   const authService = new AuthService();
+  const dispatch = useDispatch()
 
   function register() {
-    setLoading(true)
+    dispatch(setLoading(true))
     const body: PostRegisterReqBody = {
         username: username,
         phone_number: phone,
@@ -50,7 +51,7 @@ const RegisterPage = () => {
       showToast(error.message, "error")
       console.error(error.message);
     }).finally(() => {
-      setLoading(false)
+      dispatch(setLoading(false))
     });
   }
 
@@ -61,7 +62,6 @@ const RegisterPage = () => {
 
   return (
     <>
-    {isLoading && <LoadingScreen  />}
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
         <div className='w-1/2 m-auto'>
           <Card>

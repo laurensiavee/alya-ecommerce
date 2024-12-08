@@ -11,11 +11,12 @@ import { PostResetPasswordReqBody } from '@/entities/auth/PostResetPasswordReqBo
 import { PostCheckPasswordTokenReqBody } from '@/entities/auth/PostCheckPasswordTokenReq.interface';
 import { useRouter } from 'next/navigation';
 import { showToast } from '@/utils/toastNotify';
+import { setLoading } from '@/store/authSlice';
+import { useDispatch } from 'react-redux';
 
 const ResetPasswordPage = () => {
   const [token, setToken] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setLoading] = useState(false);
   const [isTokenValidated, setTokenValidated] = useState(false);
   
   const { data: session, status } = useSession();
@@ -55,8 +56,10 @@ const ResetPasswordPage = () => {
         validateToken(tokenUrl? tokenUrl: "")
     }, [])
 
+    const dispatch = useDispatch()
+
     function validateToken(token: string) {
-        setLoading(true)
+        dispatch(setLoading(true))
         const body: PostCheckPasswordTokenReqBody = {
             token: token,
         }
@@ -74,12 +77,12 @@ const ResetPasswordPage = () => {
             showToast(error.message, "error")
             console.error(error.message);
         }).finally(() => {
-          setLoading(false)
+          dispatch(setLoading(false))
         });
     }
 
   function resetPassword() {
-    setLoading(true)
+    dispatch(setLoading(true))
     const body: PostResetPasswordReqBody = {
         token: token,
         password: password,
@@ -98,7 +101,7 @@ const ResetPasswordPage = () => {
         showToast(error.message, "error")
       console.error(error.message);
     }).finally(() => {
-      setLoading(false)
+      dispatch(setLoading(false))
     });
   }
   
@@ -109,7 +112,6 @@ const ResetPasswordPage = () => {
 
   return (
     <> 
-      {isLoading && <LoadingScreen  />}
       <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
         <div className='w-1/3 m-auto'>
           <Card>

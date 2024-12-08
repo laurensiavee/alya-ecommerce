@@ -6,11 +6,9 @@ import { showToast } from '@/utils/toastNotify';
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { setToken } from "@/store/authSlice";
+import { selectLoggedIn, selectToken, setToken, setLoading } from "@/store/authSlice";
 
 export default function Navbar() {
-
-  const [isLoading, setLoading] = useState(false);
 
   const handleLogout = () => {
     logout()
@@ -31,11 +29,11 @@ export default function Navbar() {
   const authService = new AuthService();
 
   const router = useRouter();
-  const token = useSelector((state: RootState) => state.auth.token)
+  const token = useSelector(selectToken)
   const dispatch = useDispatch()
 
   function logout() {
-    setLoading(true)
+    dispatch(setLoading(true))
     
     authService.postLogout(token)
     .then((resp) => {
@@ -51,11 +49,11 @@ export default function Navbar() {
       showToast(error.message, "error")
       console.error(error.message);
     }).finally(() => {
-      setLoading(false)
+      dispatch(setLoading(false))
     });
   }
 
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const isLoggedIn = useSelector(selectLoggedIn);
 
   return (
     <>
