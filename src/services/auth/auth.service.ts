@@ -6,7 +6,6 @@ import { PostLoginReqBody } from "@/entities/auth/PostLoginReq.interface";
 import { PostForgetPasswordReqBody } from "@/entities/auth/PostForgetPasswordReq.interface";
 import { PostResetPasswordReqBody } from "@/entities/auth/PostResetPasswordReqBody.interface";
 import { PostCheckPasswordTokenReqBody } from "@/entities/auth/PostCheckPasswordTokenReq.interface";
-import { useDispatch } from "react-redux";
 
 const base_url = API_DEV_URI + `auth/`;
 

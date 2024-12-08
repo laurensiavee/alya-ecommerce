@@ -16,6 +16,18 @@ export default function Navbar() {
     logout()
   };
 
+  const handleLogin = () => {
+    router.push('/login')
+  };
+  
+  const handleRegister = () => {
+    router.push('/register')
+  };
+
+  const handleHome = () => {
+    router.push('/')
+  };
+
   const authService = new AuthService();
 
   const router = useRouter();
@@ -42,10 +54,13 @@ export default function Navbar() {
       setLoading(false)
     });
   }
+
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+
   return (
     <>
       <nav className="px-5 py-3 bg-gradient-to-r from-l-primary to-l-secondary text-d-text font-semibold flex justify-between">
-        <div className="flex p-1">
+        <div className="flex p-1" onClick={handleHome}>
           Alya
         </div>
         <div className=" mx-5 w-1/2 flex">
@@ -54,8 +69,22 @@ export default function Navbar() {
             Filter
           </button>
         </div>
-        <div className="flex p-1" onClick={handleLogout}>
-          Logout
+        <div className="flex gap-5">
+          {isLoggedIn &&
+            <div className="p-1" onClick={handleLogout}>
+              Logout
+            </div>
+          }
+          {!isLoggedIn &&
+            <>
+              <div className="p-1" onClick={handleRegister}>
+                Register
+              </div>
+              <div className="p-1" onClick={handleLogin}>
+                Login
+              </div>
+            </>
+          }
         </div>
       </nav>
     </>

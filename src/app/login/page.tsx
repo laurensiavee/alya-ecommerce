@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Card from '../../component/base/Card';
 import Label from '../../component/base/Label';
 import Title from '../../component/base/Title';
@@ -12,8 +12,6 @@ import { showToast } from '@/utils/toastNotify';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { setToken } from '@/store/authSlice';
-import { RootState } from '@/store/store';
-
 
 const LoginPage = () => {
   // const { data: session, status } = useSession();
