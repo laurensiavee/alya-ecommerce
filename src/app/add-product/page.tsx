@@ -34,10 +34,10 @@ const RegisterPage = () => {
     dispatch(setLoading(true))
     const body: PostAddProductReqBody = {
         product_name: productName,
-        product_price: price,
-        product_stock: stock,
-        product_category_id: category,
-        discount: discount,
+        product_price: + price,
+        product_stock: + stock,
+        product_category_id: + category,
+        discount: + discount,
         description: description,
     }
     
