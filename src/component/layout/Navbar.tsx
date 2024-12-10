@@ -54,7 +54,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="px-5 py-3 bg-gradient-to-r from-l-primary to-l-secondary text-d-text font-semibold flex justify-between">
+    <nav className="fixed top-0 z-50 w-full px-5 py-3 bg-gradient-to-r from-l-primary to-l-secondary text-d-text font-semibold flex justify-between">
       <div className="flex p-1" onClick={handleHome}>
         Alya
       </div>
