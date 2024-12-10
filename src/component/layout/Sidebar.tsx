@@ -38,7 +38,7 @@ export default function Sidebar() {
                         </a>
                     </li>
                     <li>
-                        <a href={`/`} className="flex items-center p-2 text-d-text rounded-lg hover:bg-l-text-secondary group ">
+                        <a href={`/add-product`} className="flex items-center p-2 text-d-text rounded-lg hover:bg-l-text-secondary group ">
                             <span className="text-sm flex-1 ms-3 whitespace-nowrap">Add Product</span>
                         </a>
                     </li>
