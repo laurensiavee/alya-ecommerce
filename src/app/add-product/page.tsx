@@ -3,12 +3,12 @@ import { useState } from 'react';
 import Card from '../../component/base/Card';
 import Label from '../../component/base/Label';
 import Title from '../../component/base/Title';
-import { PostRegisterReqBody } from '@/entities/auth/PostRegisterReq.interface';
-import { AuthService } from '@/services/auth/auth.service';
 import { useRouter } from 'next/navigation'
 import { showToast } from '@/utils/toastNotify';
-import { setLoading } from '@/store/authSlice';
-import { useDispatch } from 'react-redux';
+import { selectToken, setLoading } from '@/store/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { ProductService } from '@/services/product/product.service';
+import { PostAddProductReqBody } from '@/entities/product/PostAddProduct.interface';
 
 const RegisterPage = () => {
   const [productName, setProductName] = useState('');
@@ -19,28 +19,29 @@ const RegisterPage = () => {
   const [discount, setDiscount] = useState('');
   const [error] = useState<string | null>(null);
 
-  const authService = new AuthService();
+  const productService = new ProductService();
 
   const router = useRouter();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const token = useSelector(selectToken);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    postRegister();
+    postAddProduct();
   }
 
-  function postRegister() {
+  function postAddProduct() {
     dispatch(setLoading(true))
-    const body: PostRegisterReqBody = {
-        username: username,
-        phone_number: phone,
-        address: address,
-        name: fullname,
-        password: password,
-        email: email,
+    const body: PostAddProductReqBody = {
+        product_name: productName,
+        product_price: price,
+        product_stock: stock,
+        product_category_id: category,
+        discount: discount,
+        description: description,
     }
-
-    authService.postRegister(body)
+    
+    productService.postAddProduct(body, token)
     .then((resp) => {
       if(resp.status === 200){
         showToast(resp.message, "success")
