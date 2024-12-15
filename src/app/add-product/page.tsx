@@ -46,6 +46,7 @@ const RegisterPage = () => {
       if(resp.status === 200){
         showToast(resp.message, "success")
         router.push('/login')
+        console.log("tes")
       }
       else
         showToast(resp.message, "error")
