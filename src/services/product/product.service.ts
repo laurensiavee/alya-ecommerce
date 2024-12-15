@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { API_DEV_URI } from "@/const/token";
 import { BaseResp } from "@/entities/BaseResp.interface";
 import { PostAddProductReqBody } from "@/entities/product/PostAddProduct.interface";
+import { PostAddProductCategoryReqBody } from "@/entities/product/PostAddProductCategory.interface";
 
 const base_url = API_DEV_URI + `product/`;
 
@@ -17,6 +18,23 @@ export class ProductService {
         
         try {
             const response: AxiosResponse = await axios.post(base_url, body, config);
+            return this.responseMapper<string>(response)
+        } catch (error) {
+            return this.handleErrorResponse(error);
+        }
+    }
+
+    async postAddProductCategory(body: PostAddProductCategoryReqBody, token: any): Promise<BaseResp<string>> {
+        console.log("token", token.token)
+        
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
+            }
+        };
+        
+        try {
+            const response: AxiosResponse = await axios.post(base_url + "category/", body, config);
             return this.responseMapper<string>(response)
         } catch (error) {
             return this.handleErrorResponse(error);

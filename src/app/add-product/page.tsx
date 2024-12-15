@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ProductService } from '@/services/product/product.service';
 import { PostAddProductReqBody } from '@/entities/product/PostAddProduct.interface';
 
-const RegisterPage = () => {
+const AddProductPage = () => {
   const [productName, setProductName] = useState('');
   const [stock, setStock] = useState('');
   const [category, setCategory] = useState('');
@@ -45,8 +45,7 @@ const RegisterPage = () => {
     .then((resp) => {
       if(resp.status === 200){
         showToast(resp.message, "success")
-        router.push('/login')
-        console.log("tes")
+        router.push('/')
       }
       else
         showToast(resp.message, "error")
@@ -164,4 +163,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default AddProductPage;
