@@ -6,6 +6,7 @@ import { PostAddProductCategoryReqBody } from "@/entities/product/PostAddProduct
 import { Category } from "@/entities/product/Category.interface";
 import { PatchProductCategoryReqBody, PatchProductCategoryReqParams } from "@/entities/product/PatchProductCategory.interface";
 import { DeleteProductCategoryReqParams } from "@/entities/product/DeleteProductCategory.interface";
+import { GetProductCategoryReqParams } from "@/entities/product/GetProductCategory.interface";
 
 const base_url = API_DEV_URI + `product/`;
 
@@ -82,6 +83,21 @@ export class ProductService {
             return this.responseMapper<string>(response)
         } catch (error) {
             return this.handleErrorResponse(error);
+        }
+    }
+
+    async getProductCategory(req: GetProductCategoryReqParams, token: any): Promise<BaseResp<Category>> {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
+            }
+        };
+        
+        try {
+            const response: AxiosResponse = await axios.get(base_url + "category/" + req.category_id, config);
+            return this.responseMapper<Category>(response)
+        } catch (error) {
+            return this.handleErrorResponse<Category>(error);
         }
     }
 

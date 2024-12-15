@@ -8,7 +8,7 @@ import { ProductService } from "@/services/product/product.service";
 import { selectToken, setLoading } from "@/store/authSlice";
 import { showToast } from "@/utils/toastNotify";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const EditProductCategoryPage = () => {
@@ -22,9 +22,43 @@ const EditProductCategoryPage = () => {
   const token = useSelector(selectToken);
   const params = useParams()
 
+  useEffect(() => {
+    getProductCategory()
+    
+    return () => {
+        console.log('Component unmounted');
+    };
+  }, []); 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     patchProductCategory();
+  }
+
+  function getProductCategory() {
+    dispatch(setLoading(true))
+
+    const categoryId: string = Array.isArray(params.id) ? params.id[0] : params.id.toString();
+    
+    const req: PatchProductCategoryReqParams = {
+        category_id: categoryId
+    }
+    
+    productService.getProductCategory(req, token)
+    .then((resp) => {
+      if(resp.status === 200){
+        showToast(resp.message, "success")
+        setCategoryName(resp.data? resp.data.category_name : "")
+      }
+      else
+        showToast(resp.message, "error")
+    })
+    .catch((error) => {
+      showToast(error.message, "error")
+      console.error(error.message);
+    }).finally(() => {
+      dispatch(setLoading(false))
+    });
   }
 
   function patchProductCategory() {
