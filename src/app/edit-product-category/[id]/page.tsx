@@ -2,15 +2,16 @@
 import Card from "@/component/base/Card";
 import Label from "@/component/base/Label";
 import Title from "@/component/base/Title";
+import { PatchProductCategoryReqBody, PatchProductCategoryReqParams } from "@/entities/product/PatchProductCategory.interface";
 import { PostAddProductCategoryReqBody } from "@/entities/product/PostAddProductCategory.interface";
 import { ProductService } from "@/services/product/product.service";
 import { selectToken, setLoading } from "@/store/authSlice";
 import { showToast } from "@/utils/toastNotify";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const AddProductCategoryPage = () => {
+const EditProductCategoryPage = () => {
   const [categoryName, setCategoryName] = useState('');
   const [error] = useState<string | null>(null);
 
@@ -19,23 +20,31 @@ const AddProductCategoryPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
+  const params = useParams()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    postAddProductCategory();
+    patchProductCategory();
   }
 
-  function postAddProductCategory() {
+  function patchProductCategory() {
     dispatch(setLoading(true))
-    const body: PostAddProductCategoryReqBody = {
+
+    const categoryId: string = Array.isArray(params.id) ? params.id[0] : params.id.toString();
+    
+    const req: PatchProductCategoryReqParams = {
+        category_id: categoryId
+    }
+
+    const body: PatchProductCategoryReqBody = {
         category_name: categoryName,
     }
     
-    productService.postAddProductCategory(body, token)
+    productService.patchProductCategory(req, body, token)
     .then((resp) => {
       if(resp.status === 200){
         showToast(resp.message, "success")
-        router.push('/')
+        router.push('/product-category-list')
       }
       else
         showToast(resp.message, "error")
@@ -53,7 +62,7 @@ const AddProductCategoryPage = () => {
         <div className='w-1/2 m-auto'>
             <Card>
                 <div>
-                    <Title className="my-3 align-middle text-center">Add Product Category</Title>
+                    <Title className="my-3 align-middle text-center">Edit Product Category</Title>
                     <form onSubmit={handleSubmit}>
                         <div className='mb-3'>
                             <Label>Category Name</Label>
@@ -69,7 +78,7 @@ const AddProductCategoryPage = () => {
                         </div>
                         <div className='flex justify-end'>
                             <button type='submit' className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
-                            Add Product Category
+                            Save Product Category
                             </button>
                         </div>
                         {error && <p>{error}</p>}
@@ -81,4 +90,4 @@ const AddProductCategoryPage = () => {
   )
 }
 
-export default AddProductCategoryPage;
+export default EditProductCategoryPage;

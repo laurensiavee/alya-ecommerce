@@ -37,7 +37,8 @@ const ProductCategoryListPage = () => {
     deleteProductCategory(categoryId)
   };
 
-  const handleEditCategory = (event) => {
+  const handleEditCategory = (categoryId: string) => {
+    router.push('/edit-product-category/' + categoryId)
   };
 
   function getProductCategoryList() {
@@ -101,7 +102,7 @@ const ProductCategoryListPage = () => {
                                     <button onClick={() => handleDeleteCategory(category.id)} className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
                                         Delete
                                     </button>
-                                    <button onClick={handleEditCategory} className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
+                                    <button onClick={() => handleEditCategory(category.id)} className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
                                         Edit
                                     </button>
                                 </div>
