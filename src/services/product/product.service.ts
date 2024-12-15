@@ -3,13 +3,12 @@ import { API_DEV_URI } from "@/const/token";
 import { BaseResp } from "@/entities/BaseResp.interface";
 import { PostAddProductReqBody } from "@/entities/product/PostAddProduct.interface";
 import { PostAddProductCategoryReqBody } from "@/entities/product/PostAddProductCategory.interface";
+import { Category } from "@/entities/product/Category.interface";
 
 const base_url = API_DEV_URI + `product/`;
 
 export class ProductService {
     async postAddProduct(body: PostAddProductReqBody, token: any): Promise<BaseResp<string>> {
-        console.log("token", token.token)
-        
         const config = {
             headers: {
                 Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
@@ -25,8 +24,6 @@ export class ProductService {
     }
 
     async postAddProductCategory(body: PostAddProductCategoryReqBody, token: any): Promise<BaseResp<string>> {
-        console.log("token", token.token)
-        
         const config = {
             headers: {
                 Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
@@ -41,19 +38,36 @@ export class ProductService {
         }
     }
 
-    private handleErrorResponse(error: any): BaseResp<string> {
+    async getProductCategoryList(token: any): Promise<BaseResp<Category[]>> {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
+            }
+        };
+        
+        try {
+            const response: AxiosResponse = await axios.get(base_url + "category/", config);
+            console.log("response", response)
+            return this.responseMapper<Category[]>(response)
+        } catch (error) {
+            return this.handleErrorResponse<Category[]>(error);
+        }
+    }
+
+    private handleErrorResponse<T = string> (error: any): BaseResp<T> {
         if (axios.isAxiosError(error)) {
-            return {
+            const baseResp: BaseResp<T> = {
                 status: error.response?.status || 0,
                 message: error.response?.data.message,
                 data: error.response?.data.data
-            };
+            }
+            return baseResp
         }
 
         return {
             status: 0,
             message: "an error occurred",
-            data: ""
+            data: undefined
         };
     }
 
