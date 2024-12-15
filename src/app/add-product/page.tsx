@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Card from '../../component/base/Card';
 import Label from '../../component/base/Label';
 import Title from '../../component/base/Title';
@@ -9,6 +9,7 @@ import { selectToken, setLoading } from '@/store/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { ProductService } from '@/services/product/product.service';
 import { PostAddProductReqBody } from '@/entities/product/PostAddProduct.interface';
+import { Category } from '@/entities/product/Category.interface';
 
 const AddProductPage = () => {
   const [productName, setProductName] = useState('');
@@ -18,12 +19,25 @@ const AddProductPage = () => {
   const [price, setPrice] = useState('');
   const [discount, setDiscount] = useState('');
   const [error] = useState<string | null>(null);
+  const [categoryList, setCategoryList] = useState<Category[]>([]);
 
   const productService = new ProductService();
 
   const router = useRouter();
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
+
+  useEffect(() => {
+    getProductCategoryList()
+    
+    return () => {
+        console.log('Component unmounted');
+    };
+  }, []); 
+
+  const handleSelectCategory = (event) => {
+    setCategory(event.target.value);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,6 +60,25 @@ const AddProductPage = () => {
       if(resp.status === 200){
         showToast(resp.message, "success")
         router.push('/')
+      }
+      else
+        showToast(resp.message, "error")
+    })
+    .catch((error) => {
+      showToast(error.message, "error")
+      console.error(error.message);
+    }).finally(() => {
+      dispatch(setLoading(false))
+    });
+  }
+
+  function getProductCategoryList() {
+    dispatch(setLoading(true))
+    
+    productService.getProductCategoryList(token)
+    .then((resp) => {
+      if(resp.status === 200){
+        setCategoryList(resp.data? resp.data : [])
       }
       else
         showToast(resp.message, "error")
@@ -91,15 +124,14 @@ const AddProductPage = () => {
               </div>
               <div className='mb-3'>
                 <Label>Category</Label>
-                <input
-                  placeholder="Input Category" 
-                  className="bg-white border border-l-secondary/60 text-l-text text-sm rounded-lg block w-full p-2.5"
-                  id="category"
-                  type="category"
+                <select className="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  required
-                />
+                  onChange={handleSelectCategory}>
+                  <option value="" disabled selected>Choose a category</option>
+                  {categoryList.map((category, index) => (
+                    <option key={index} value={category.id}>{category.category_name}</option>
+                  ))}
+                </select>
               </div>
               <div className='mb-3'>
                 <Label>Description</Label>
