@@ -55,6 +55,11 @@ export default function Sidebar() {
                             <span className="text-sm flex-1 ms-3 whitespace-nowrap">Add Product Category</span>
                         </a>
                     </li>
+                    <li>
+                        <a onClick={() => router.push('/product-category-list')} className="flex items-center p-2 text-d-text rounded-lg hover:bg-l-text-secondary group ">
+                            <span className="text-sm flex-1 ms-3 whitespace-nowrap">Product Category List</span>
+                        </a>
+                    </li>
                 </ul>
                 <ul className="space-y-2 font-medium">
                     <li>
