@@ -7,6 +7,10 @@ import { Category } from "@/entities/product/Category.interface";
 import { PatchProductCategoryReqBody, PatchProductCategoryReqParams } from "@/entities/product/PatchProductCategory.interface";
 import { DeleteProductCategoryReqParams } from "@/entities/product/DeleteProductCategory.interface";
 import { GetProductCategoryReqParams } from "@/entities/product/GetProductCategory.interface";
+import { Product } from "@/entities/product/Product.interface";
+import { PatchProductReqBody, PatchProductReqParams } from "@/entities/product/PatchProduct.interface";
+import { DeleteProductyReqParams } from "@/entities/product/DeleteProduct.interface";
+import { GetProductReqParams } from "@/entities/product/GetProduct.interface";
 
 const base_url = API_DEV_URI + `product/`;
 
@@ -41,6 +45,21 @@ export class ProductService {
         }
     }
 
+    async getProductList(token: any): Promise<BaseResp<Product[]>> {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
+            }
+        };
+        
+        try {
+            const response: AxiosResponse = await axios.get(base_url, config);
+            return this.responseMapper<Product[]>(response)
+        } catch (error) {
+            return this.handleErrorResponse<Product[]>(error);
+        }
+    }
+
     async getProductCategoryList(token: any): Promise<BaseResp<Category[]>> {
         const config = {
             headers: {
@@ -56,6 +75,21 @@ export class ProductService {
         }
     }
 
+    async patchProduct(req: PatchProductReqParams, body: PatchProductReqBody,  token: any): Promise<BaseResp<string>> {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
+            }
+        };
+        
+        try {
+            const response: AxiosResponse = await axios.patch(base_url + "/" + req.product_id, body, config);
+            return this.responseMapper<string>(response)
+        } catch (error) {
+            return this.handleErrorResponse(error);
+        }
+    }
+
     async patchProductCategory(req: PatchProductCategoryReqParams, body: PatchProductCategoryReqBody,  token: any): Promise<BaseResp<string>> {
         const config = {
             headers: {
@@ -65,6 +99,21 @@ export class ProductService {
         
         try {
             const response: AxiosResponse = await axios.patch(base_url + "category/" + req.category_id, body, config);
+            return this.responseMapper<string>(response)
+        } catch (error) {
+            return this.handleErrorResponse(error);
+        }
+    }
+    
+    async deleteProduct(req: DeleteProductyReqParams, token: any): Promise<BaseResp<string>> {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
+            }
+        };
+        
+        try {
+            const response: AxiosResponse = await axios.delete(base_url + "/" + req.product_id, config);
             return this.responseMapper<string>(response)
         } catch (error) {
             return this.handleErrorResponse(error);
@@ -83,6 +132,21 @@ export class ProductService {
             return this.responseMapper<string>(response)
         } catch (error) {
             return this.handleErrorResponse(error);
+        }
+    }
+
+    async getProduct(req: GetProductReqParams, token: any): Promise<BaseResp<Product>> {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
+            }
+        };
+        
+        try {
+            const response: AxiosResponse = await axios.get(base_url + "/" + req.product_id, config);
+            return this.responseMapper<Product>(response)
+        } catch (error) {
+            return this.handleErrorResponse<Product>(error);
         }
     }
 
