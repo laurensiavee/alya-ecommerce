@@ -1,6 +1,11 @@
+import { useRouter } from "next/navigation";
+
 export default function ProductCard({ product }) {
+    const router = useRouter();
+
     return (
-        <div className="max-w-sm rounded overflow-hidden shadow-lg">
+        <div onClick={() => router.push('/product-detail/' + product.id)}  
+            className="max-w-sm rounded overflow-hidden shadow-lg">
             <img className="w-full" src="https://raw.githubusercontent.com/laurensiavee/portfolio/main/img/1_kny.png" alt="Sunset in the mountains" />
             <div className="px-6 pt-4">
                 <div className="font-bold text-xl mb-2">{product.product_name}</div>

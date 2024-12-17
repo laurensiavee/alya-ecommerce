@@ -143,7 +143,7 @@ export class ProductService {
         };
         
         try {
-            const response: AxiosResponse = await axios.get(base_url + "/" + req.product_id, config);
+            const response: AxiosResponse = await axios.get(base_url + req.product_id, config);
             return this.responseMapper<Product>(response)
         } catch (error) {
             return this.handleErrorResponse<Product>(error);
