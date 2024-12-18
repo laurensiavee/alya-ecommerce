@@ -9,7 +9,7 @@ import { DeleteProductCategoryReqParams } from "@/entities/product/DeleteProduct
 import { GetProductCategoryReqParams } from "@/entities/product/GetProductCategory.interface";
 import { Product } from "@/entities/product/Product.interface";
 import { PatchProductReqBody, PatchProductReqParams } from "@/entities/product/PatchProduct.interface";
-import { DeleteProductyReqParams } from "@/entities/product/DeleteProduct.interface";
+import { DeleteProductReqParams } from "@/entities/product/DeleteProduct.interface";
 import { GetProductReqParams } from "@/entities/product/GetProduct.interface";
 
 const base_url = API_DEV_URI + `product/`;
@@ -105,7 +105,7 @@ export class ProductService {
         }
     }
     
-    async deleteProduct(req: DeleteProductyReqParams, token: any): Promise<BaseResp<string>> {
+    async deleteProduct(req: DeleteProductReqParams, token: any): Promise<BaseResp<string>> {
         const config = {
             headers: {
                 Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
@@ -113,7 +113,7 @@ export class ProductService {
         };
         
         try {
-            const response: AxiosResponse = await axios.delete(base_url + "/" + req.product_id, config);
+            const response: AxiosResponse = await axios.delete(base_url + req.product_id, config);
             return this.responseMapper<string>(response)
         } catch (error) {
             return this.handleErrorResponse(error);

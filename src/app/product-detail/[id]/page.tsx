@@ -3,6 +3,7 @@ import Card from "@/component/base/Card";
 import Label from "@/component/base/Label";
 import Title from "@/component/base/Title";
 import { Category } from "@/entities/product/Category.interface";
+import { DeleteProductReqParams } from "@/entities/product/DeleteProduct.interface";
 import { GetProductReqParams } from "@/entities/product/GetProduct.interface";
 import { PatchProductReqBody, PatchProductReqParams } from "@/entities/product/PatchProduct.interface";
 import { Product } from "@/entities/product/Product.interface";
@@ -43,10 +44,15 @@ const EditProductCategoryPage = () => {
   const handleSelectCategory = (event) => {
     setCategory(event.target.value);
   };
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     patchProduct();
+  }
+
+  const handleDelete = async (e: React.FormEvent) => {
+    e.preventDefault();
+    deleteProduct();
   }
   
   function getProduct() {
@@ -61,9 +67,11 @@ const EditProductCategoryPage = () => {
     productService.getProduct(req, token)
     .then((resp) => {
       if(resp.status === 200){
+        if(resp.data){
+            setProduct(resp.data)
+            setProductData(resp.data)
+        }
         showToast(resp.message, "success")
-        setProduct(resp.data? resp.data : null)
-        setProductData(resp.data? resp.data : null)
       }
       else
         showToast(resp.message, "error")
@@ -128,15 +136,38 @@ const EditProductCategoryPage = () => {
     });
   }
 
-  function setProductData(product: Product){
-    if(product){
-        setProductName(product.product_name)
-        setStock(product.product_stock.toString())
-        setCategory(product.product_category_id.toString())
-        setDescription(product.description)
-        setPrice(product.product_price.toString())
-        setDiscount(product.discount.toString())
+  function deleteProduct() {
+    dispatch(setLoading(true))
+    const productId: string = Array.isArray(params.id) ? params.id[0] : params.id.toString();
+
+    const req: DeleteProductReqParams = {
+        product_id: productId
     }
+    
+    productService.deleteProduct(req, token)
+    .then((resp) => {
+      if(resp.status === 200){
+        showToast(resp.message, "success")
+        router.push('/')
+      }
+      else
+        showToast(resp.message, "error")
+    })
+    .catch((error) => {
+      showToast(error.message, "error")
+      console.error(error.message);
+    }).finally(() => {
+      dispatch(setLoading(false))
+    });
+  }
+
+  function setProductData(product: Product){
+    setProductName(product.product_name)
+    setStock(product.product_stock.toString())
+    setCategory(product.product_category_id.toString())
+    setDescription(product.description)
+    setPrice(product.product_price.toString())
+    setDiscount(product.discount.toString())
   }
 
   return (
@@ -230,12 +261,15 @@ const EditProductCategoryPage = () => {
                             /> */}
                         </div>
                         <div className='flex justify-end'>
+                            <button onClick={handleDelete} type="button" className="rounded-xl py-2 px-5 me-2 bg-gradient-to-br from-l-secondary to-l-accent text-d-text font-bold hover:from-l-accent hover:to-l-secondary hover:shadow-2xl hover:shadow-l-secondary/50">
+                                Delete Product
+                            </button>
                             <button type='submit' className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
-                            Save
+                                Save
                             </button>
                         </div>
                         {error && <p>{error}</p>}
-                        </form>
+                    </form>
                 </div>
             </Card>
         </div>
