@@ -68,7 +68,7 @@ export class ProductService {
         };
         
         try {
-            const response: AxiosResponse = await axios.get(base_url + "category/", config);
+            const response: AxiosResponse = await axios.get(base_url + "category", config);
             return this.responseMapper<Category[]>(response)
         } catch (error) {
             return this.handleErrorResponse<Category[]>(error);
@@ -83,7 +83,7 @@ export class ProductService {
         };
         
         try {
-            const response: AxiosResponse = await axios.patch(base_url + "/" + req.product_id, body, config);
+            const response: AxiosResponse = await axios.patch(base_url + req.product_id, body, config);
             return this.responseMapper<string>(response)
         } catch (error) {
             return this.handleErrorResponse(error);

@@ -63,7 +63,7 @@ const EditProductCategoryPage = () => {
       if(resp.status === 200){
         showToast(resp.message, "success")
         setProduct(resp.data? resp.data : null)
-        setProductData()
+        setProductData(resp.data? resp.data : null)
       }
       else
         showToast(resp.message, "error")
@@ -107,8 +107,8 @@ const EditProductCategoryPage = () => {
         product_price: + price,
         product_stock: + stock,
         product_category_id: + category,
-        product_discount: + discount,
-        product_description: description,
+        discount: + discount,
+        description: description,
     }
     
     productService.patchProduct(req, body, token)
@@ -128,7 +128,7 @@ const EditProductCategoryPage = () => {
     });
   }
 
-  function setProductData(){
+  function setProductData(product: Product){
     if(product){
         setProductName(product.product_name)
         setStock(product.product_stock.toString())
@@ -145,7 +145,6 @@ const EditProductCategoryPage = () => {
             <Card>
                 <div>
                     <Title className="my-3 align-middle text-center">Edit Product</Title>
-                    <p>{product?.product_name}</p>
                     <form onSubmit={handleSubmit}>
                         <div className='mb-3'>
                             <Label>Product Name</Label>
@@ -232,7 +231,7 @@ const EditProductCategoryPage = () => {
                         </div>
                         <div className='flex justify-end'>
                             <button type='submit' className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
-                            Add Product
+                            Save
                             </button>
                         </div>
                         {error && <p>{error}</p>}
