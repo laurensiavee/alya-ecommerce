@@ -20,7 +20,7 @@ export default function Sidebar() {
                         </a>
                     </li>
                     <li>
-                        <a href={`/`} className="flex items-center p-2 text-d-text rounded-lg hover:bg-l-text-secondary group ">
+                        <a onClick={() => router.push('/add-promotion')} className="flex items-center p-2 text-d-text rounded-lg hover:bg-l-text-secondary group ">
                             <span className="text-sm flex-1 ms-3 whitespace-nowrap">Add Promotion</span>
                         </a>
                     </li>

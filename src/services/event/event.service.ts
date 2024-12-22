@@ -30,7 +30,7 @@ export class EventService {
         };
         
         try {
-            const response: AxiosResponse = await axios.delete(base_url, config);
+            const response: AxiosResponse = await axios.delete(base_url + req.id, config);
             return this.responseMapper<string>(response)
         } catch (error) {
             return this.handleErrorResponse(error);
