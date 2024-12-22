@@ -10,12 +10,13 @@ import { showToast } from "@/utils/toastNotify";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Datepicker } from "flowbite-react";
 
 const AddEventPage = () => {
   const [eventName, setEventName] = useState('');
   const [eventDescription, setEventDescription] = useState('');
-  const [eventStartAt, setEventStartAt] = useState('');
-  const [eventEndAt, setEventEndAt] = useState('');
+  const [eventStartAt, setEventStartAt] = useState(null);
+  const [eventEndAt, setEventEndAt] = useState(null);
   const [error] = useState<string | null>(null);
 
   const eventService = new EventService();
@@ -28,6 +29,14 @@ const AddEventPage = () => {
     e.preventDefault();
     postAddEvent();
   }
+
+  const handleStartDateChange = (date) => {
+    setEventStartAt(date);
+  };
+
+  const handleEndDateChange = (date) => {
+    setEventEndAt(date);
+  };
 
   function postAddEvent() {
     dispatch(setLoading(true))
@@ -89,26 +98,14 @@ const AddEventPage = () => {
               </div>
               <div className='mb-3'>
                 <Label>Event Start At</Label>
-                <input
-                  placeholder="Input Event Start Time" 
-                  className="bg-white border border-l-secondary/60 text-l-text text-sm rounded-lg block w-full p-2.5"
-                  id="eventStartAt"
-                  type="text"
-                  value={eventStartAt}
-                  onChange={(e) => setEventStartAt(e.target.value)}
-                  required
+                <Datepicker 
+                    onSelectedDateChanged={handleStartDateChange}
                 />
               </div>
               <div className='mb-3'>
                 <Label>Event End At</Label>
-                <input
-                  placeholder="Input Event End Time" 
-                  className="bg-white border border-l-secondary/60 text-l-text text-sm rounded-lg block w-full p-2.5"
-                  id="eventEndAt"
-                  type="text"
-                  value={eventEndAt}
-                  onChange={(e) => setEventEndAt(e.target.value)}
-                  required
+                <Datepicker 
+                    onSelectedDateChanged={handleEndDateChange}
                 />
               </div>
               <div className='flex justify-end'>
