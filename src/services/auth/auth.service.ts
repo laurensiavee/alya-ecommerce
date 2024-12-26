@@ -57,12 +57,13 @@ export class AuthService {
         }
     }
 
-    async postLogout(token: string): Promise<BaseResp<string>> {
+    async postLogout(token: any): Promise<BaseResp<string>> {
         const url = base_url + `logout/`;
 
+        console.log("token scc", token)
         const config = {
             headers: {
-                Authorization: `Bearer ${token}` // Add the authorization token to the headers
+                Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
             }
         };
 
