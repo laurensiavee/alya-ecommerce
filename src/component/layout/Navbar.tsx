@@ -38,13 +38,13 @@ export default function Navbar() {
         </div>
       </div>
       <div>
-        {!isLoggedIn &&
+        {isLoggedIn &&
           <div className="flex gap-7">
           <FontAwesomeIcon icon={faCartShopping} />
           <ProfileTooltip />
           </div>
         }
-        {isLoggedIn &&
+        {!isLoggedIn &&
           <div className="flex gap-5">
             <button onClick={handleRegister}>
               Register
