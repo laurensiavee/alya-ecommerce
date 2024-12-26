@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ProductService } from '@/services/product/product.service';
 import { PostAddProductReqBody } from '@/entities/product/PostAddProduct.interface';
 import { Category } from '@/entities/product/Category.interface';
+import { ProductCategoryService } from '@/services/product/product-category.service';
 
 const AddProductPage = () => {
   const [productName, setProductName] = useState('');
@@ -22,6 +23,7 @@ const AddProductPage = () => {
   const [categoryList, setCategoryList] = useState<Category[]>([]);
 
   const productService = new ProductService();
+  const productCategoryService = new ProductCategoryService();
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -75,7 +77,7 @@ const AddProductPage = () => {
   function getProductCategoryList() {
     dispatch(setLoading(true))
     
-    productService.getProductCategoryList(token)
+    productCategoryService.getProductCategoryList(token)
     .then((resp) => {
       if(resp.status === 200){
         setCategoryList(resp.data? resp.data : [])

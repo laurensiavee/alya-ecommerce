@@ -7,6 +7,7 @@ import { DeleteProductReqParams } from "@/entities/product/DeleteProduct.interfa
 import { GetProductReqParams } from "@/entities/product/GetProduct.interface";
 import { PatchProductReqBody, PatchProductReqParams } from "@/entities/product/PatchProduct.interface";
 import { Product } from "@/entities/product/Product.interface";
+import { ProductCategoryService } from "@/services/product/product-category.service";
 import { ProductService } from "@/services/product/product.service";
 import { selectToken, setLoading } from "@/store/authSlice";
 import { showToast } from "@/utils/toastNotify";
@@ -25,6 +26,7 @@ const EditProductCategoryPage = () => {
   const [categoryList, setCategoryList] = useState<Category[]>([]);
 
   const productService = new ProductService();
+  const productCategoryService = new ProductCategoryService();
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -67,7 +69,6 @@ const EditProductCategoryPage = () => {
     .then((resp) => {
       if(resp.status === 200){
         if(resp.data){
-            setProduct(resp.data)
             setProductData(resp.data)
         }
         showToast(resp.message, "success")
@@ -86,7 +87,7 @@ const EditProductCategoryPage = () => {
   function getProductCategoryList() {
     dispatch(setLoading(true))
     
-    productService.getProductCategoryList(token)
+    productCategoryService.getProductCategoryList(token)
     .then((resp) => {
       if(resp.status === 200){
         setCategoryList(resp.data? resp.data : [])

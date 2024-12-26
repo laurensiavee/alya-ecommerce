@@ -3,7 +3,7 @@ import Card from "@/component/base/Card";
 import Title from "@/component/base/Title";
 import { Category } from "@/entities/product/Category.interface";
 import { DeleteProductCategoryReqParams } from "@/entities/product/DeleteProductCategory.interface";
-import { ProductService } from "@/services/product/product.service";
+import { ProductCategoryService } from "@/services/product/product-category.service";
 import { selectToken, setLoading } from "@/store/authSlice";
 import { showToast } from "@/utils/toastNotify";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 const ProductCategoryListPage = () => {
   const [categoryList, setCategoryList] = useState<Category[]>([]);
   
-  const productService = new ProductService();
+  const productCategoryService = new ProductCategoryService();
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const ProductCategoryListPage = () => {
   function getProductCategoryList() {
     dispatch(setLoading(true))
     
-    productService.getProductCategoryList(token)
+    productCategoryService.getProductCategoryList(token)
     .then((resp) => {
       if(resp.status === 200){
         setCategoryList(resp.data? resp.data : [])
@@ -65,7 +65,7 @@ const ProductCategoryListPage = () => {
         category_id: categoryId,
     }
     
-    productService.deleteProductCategory(req, token)
+    productCategoryService.deleteProductCategory(req, token)
     .then((resp) => {
       if(resp.status === 200){
         showToast(resp.message, "success")

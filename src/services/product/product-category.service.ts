@@ -1,16 +1,16 @@
-import axios, { AxiosResponse } from "axios";
 import { API_DEV_URI } from "@/const/token";
 import { BaseResp } from "@/entities/BaseResp.interface";
-import { PostAddProductReqBody } from "@/entities/product/PostAddProduct.interface";
-import { Product } from "@/entities/product/Product.interface";
-import { PatchProductReqBody, PatchProductReqParams } from "@/entities/product/PatchProduct.interface";
-import { DeleteProductReqParams } from "@/entities/product/DeleteProduct.interface";
-import { GetProductReqParams } from "@/entities/product/GetProduct.interface";
+import { Category } from "@/entities/product/Category.interface";
+import { DeleteProductCategoryReqParams } from "@/entities/product/DeleteProductCategory.interface";
+import { GetProductCategoryReqParams } from "@/entities/product/GetProductCategory.interface";
+import { PatchProductCategoryReqBody, PatchProductCategoryReqParams } from "@/entities/product/PatchProductCategory.interface";
+import { PostAddProductCategoryReqBody } from "@/entities/product/PostAddProductCategory.interface";
+import axios, { AxiosResponse } from "axios";
 
 const base_url = API_DEV_URI + `product/`;
 
-export class ProductService {
-    async postAddProduct(body: PostAddProductReqBody, token: any): Promise<BaseResp<string>> {
+export class ProductCategoryService {
+    async postAddProductCategory(body: PostAddProductCategoryReqBody, token: any): Promise<BaseResp<string>> {
         const config = {
             headers: {
                 Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
@@ -18,15 +18,14 @@ export class ProductService {
         };
         
         try {
-            const response: AxiosResponse = await axios.post(base_url, body, config);
+            const response: AxiosResponse = await axios.post(base_url + "category/", body, config);
             return this.responseMapper<string>(response)
         } catch (error) {
             return this.handleErrorResponse(error);
         }
     }
 
-
-    async getProductList(token: any): Promise<BaseResp<Product[]>> {
+    async getProductCategoryList(token: any): Promise<BaseResp<Category[]>> {
         const config = {
             headers: {
                 Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
@@ -34,14 +33,14 @@ export class ProductService {
         };
         
         try {
-            const response: AxiosResponse = await axios.get(base_url, config);
-            return this.responseMapper<Product[]>(response)
+            const response: AxiosResponse = await axios.get(base_url + "category", config);
+            return this.responseMapper<Category[]>(response)
         } catch (error) {
-            return this.handleErrorResponse<Product[]>(error);
+            return this.handleErrorResponse<Category[]>(error);
         }
     }
 
-    async patchProduct(req: PatchProductReqParams, body: PatchProductReqBody,  token: any): Promise<BaseResp<string>> {
+    async patchProductCategory(req: PatchProductCategoryReqParams, body: PatchProductCategoryReqBody,  token: any): Promise<BaseResp<string>> {
         const config = {
             headers: {
                 Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
@@ -49,14 +48,14 @@ export class ProductService {
         };
         
         try {
-            const response: AxiosResponse = await axios.patch(base_url + req.product_id, body, config);
+            const response: AxiosResponse = await axios.patch(base_url + "category/" + req.category_id, body, config);
             return this.responseMapper<string>(response)
         } catch (error) {
             return this.handleErrorResponse(error);
         }
     }
 
-    async deleteProduct(req: DeleteProductReqParams, token: any): Promise<BaseResp<string>> {
+    async deleteProductCategory(req: DeleteProductCategoryReqParams, token: any): Promise<BaseResp<string>> {
         const config = {
             headers: {
                 Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
@@ -64,14 +63,14 @@ export class ProductService {
         };
         
         try {
-            const response: AxiosResponse = await axios.delete(base_url + req.product_id, config);
+            const response: AxiosResponse = await axios.delete(base_url + "category/" + req.category_id, config);
             return this.responseMapper<string>(response)
         } catch (error) {
             return this.handleErrorResponse(error);
         }
     }
-
-    async getProduct(req: GetProductReqParams, token: any): Promise<BaseResp<Product>> {
+    
+    async getProductCategory(req: GetProductCategoryReqParams, token: any): Promise<BaseResp<Category>> {
         const config = {
             headers: {
                 Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
@@ -79,10 +78,10 @@ export class ProductService {
         };
         
         try {
-            const response: AxiosResponse = await axios.get(base_url + req.product_id, config);
-            return this.responseMapper<Product>(response)
+            const response: AxiosResponse = await axios.get(base_url + "category/" + req.category_id, config);
+            return this.responseMapper<Category>(response)
         } catch (error) {
-            return this.handleErrorResponse<Product>(error);
+            return this.handleErrorResponse<Category>(error);
         }
     }
 

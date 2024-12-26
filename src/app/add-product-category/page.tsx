@@ -3,7 +3,7 @@ import Card from "@/component/base/Card";
 import Label from "@/component/base/Label";
 import Title from "@/component/base/Title";
 import { PostAddProductCategoryReqBody } from "@/entities/product/PostAddProductCategory.interface";
-import { ProductService } from "@/services/product/product.service";
+import { ProductCategoryService } from "@/services/product/product-category.service";
 import { selectToken, setLoading } from "@/store/authSlice";
 import { showToast } from "@/utils/toastNotify";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ const AddProductCategoryPage = () => {
   const [categoryName, setCategoryName] = useState('');
   const [error] = useState<string | null>(null);
 
-  const productService = new ProductService();
+  const productCategoryService = new ProductCategoryService();
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const AddProductCategoryPage = () => {
         category_name: categoryName,
     }
     
-    productService.postAddProductCategory(body, token)
+    productCategoryService.postAddProductCategory(body, token)
     .then((resp) => {
       if(resp.status === 200){
         showToast(resp.message, "success")
