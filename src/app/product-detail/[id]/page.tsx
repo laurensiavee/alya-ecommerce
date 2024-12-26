@@ -15,7 +15,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const EditProductCategoryPage = () => {
-  const [product, setProduct] = useState<Product | null>(null);
   const [productName, setProductName] = useState('');
   const [stock, setStock] = useState('');
   const [category, setCategory] = useState('');

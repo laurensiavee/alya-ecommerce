@@ -3,7 +3,6 @@ import Card from "@/component/base/Card";
 import Label from "@/component/base/Label";
 import Title from "@/component/base/Title";
 import { PatchProductCategoryReqBody, PatchProductCategoryReqParams } from "@/entities/product/PatchProductCategory.interface";
-import { PostAddProductCategoryReqBody } from "@/entities/product/PostAddProductCategory.interface";
 import { ProductService } from "@/services/product/product.service";
 import { selectToken, setLoading } from "@/store/authSlice";
 import { showToast } from "@/utils/toastNotify";

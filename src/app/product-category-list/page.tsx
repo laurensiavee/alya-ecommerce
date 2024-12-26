@@ -1,10 +1,8 @@
 'use client'
-
 import Card from "@/component/base/Card";
 import Title from "@/component/base/Title";
 import { Category } from "@/entities/product/Category.interface";
 import { DeleteProductCategoryReqParams } from "@/entities/product/DeleteProductCategory.interface";
-import { PatchProductCategoryReqBody, PatchProductCategoryReqParams } from "@/entities/product/PatchProductCategory.interface";
 import { ProductService } from "@/services/product/product.service";
 import { selectToken, setLoading } from "@/store/authSlice";
 import { showToast } from "@/utils/toastNotify";

@@ -6,7 +6,6 @@ import Title from '../../component/base/Title';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSession } from 'next-auth/react';
 import { AuthService } from '@/services/auth/auth.service';
-import LoadingScreen from '@/component/base/LoadingScreen';
 import { PostResetPasswordReqBody } from '@/entities/auth/PostResetPasswordReqBody.interface';
 import { PostCheckPasswordTokenReqBody } from '@/entities/auth/PostCheckPasswordTokenReq.interface';
 import { useRouter } from 'next/navigation';

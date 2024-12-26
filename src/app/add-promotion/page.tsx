@@ -1,5 +1,4 @@
 'use client'
-
 import Card from "@/component/base/Card";
 import Label from "@/component/base/Label";
 import Title from "@/component/base/Title";
