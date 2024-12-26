@@ -29,7 +29,7 @@ export default function RootLayout({
             <SessionWrapper>
               <LoadingScreen />
               <Navbar />
-              <div className="mt-[4rem]">
+              <div className="mt-[3rem]">
                 <Sidebar />
                 <ToastContainer position="top-center"/>
                 <div className="p-4 sm:ml-64">
