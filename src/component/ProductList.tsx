@@ -43,14 +43,14 @@ export default function ProductList() {
     }
 
     return (
-        <div>
-            <h1 className="text-l-text font-bold">All Products</h1>
-            <div className="grid grid-cols-5 gap-4">
-                {productList.map((product, index) => (
-                    <ProductCard product={product} key={index} />
-                ))}
-            </div>
+      <div>
+        <h1 className="text-l-text font-bold">All Products</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {productList.map((product, index) => (
+                <ProductCard product={product} key={index} />
+            ))}
         </div>
+      </div>
     );
   }
   

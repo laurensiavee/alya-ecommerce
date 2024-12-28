@@ -11,7 +11,7 @@ const initialState: AuthState = {
     token: "",
     isLoggedIn: false,
     isLoading: false
-} 
+}
 
 export const authSlice = createSlice({
     name: 'auth',

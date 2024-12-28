@@ -8,6 +8,7 @@ import { StoreProvider } from "@/store/StoreProvider";
 import { ToastContainer } from "react-toastify";
 import LoadingScreen from "@/component/base/LoadingScreen";
 import Sidebar from "@/component/layout/Sidebar";
+import ContentContainer from "@/component/layout/ContentContainer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,11 +33,9 @@ export default function RootLayout({
               <div className="mt-[3rem]">
                 <Sidebar />
                 <ToastContainer position="top-center"/>
-                <div className="p-4 sm:ml-64">
-                  <div className="m-5 p-5">
-                    {children}
-                  </div>
-                </div>
+                <ContentContainer>
+                  {children}
+                </ContentContainer>
               </div>
             </SessionWrapper>
           </Theme>
