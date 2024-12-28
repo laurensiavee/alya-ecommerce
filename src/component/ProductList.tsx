@@ -6,6 +6,7 @@ import { ProductService } from "@/services/product/product.service";
 import { useDispatch, useSelector } from "react-redux";
 import { selectToken, setLoading } from "@/store/authSlice";
 import { showToast } from "@/utils/toastNotify";
+import styles from '@/style/ProductListStyles.css'; // Import the CSS file
 
 export default function ProductList() {
     const [productList, setProductList] = useState<Product[]>([]);
@@ -45,7 +46,8 @@ export default function ProductList() {
     return (
       <div>
         <h1 className="text-l-text font-bold">All Products</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        {/* <div className={styles.grid}> */}
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {productList.map((product, index) => (
                 <ProductCard product={product} key={index} />
             ))}

@@ -1,0 +1,13 @@
+/* Default grid layout for xl screen size and below */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns for xl and below */
+    gap: 1rem;
+}
+
+/* Additional columns for screen sizes larger than xl */
+@media (min-width: 1600px) {
+    .grid {
+        grid-template-columns: repeat(6, 1fr); /* 6 columns for screen sizes larger than xl */
+    }
+}
