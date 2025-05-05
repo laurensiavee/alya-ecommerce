@@ -27,7 +27,7 @@ const AddEventPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     postAddEvent();
-  }
+  } 
 
   const handleStartDateChange = (date) => {
     setEventStartAt(date);

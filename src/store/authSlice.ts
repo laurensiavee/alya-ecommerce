@@ -3,12 +3,14 @@ import { RootState } from "./store"
 
 interface AuthState {
     token: string,
+    userId: string,
     isLoggedIn: boolean,
     isLoading: boolean
 }
 
 const initialState: AuthState = {
     token: "",
+    userId: "",
     isLoggedIn: false,
     isLoading: false
 }
@@ -24,6 +26,9 @@ export const authSlice = createSlice({
             else 
                 state.isLoggedIn = false
         },
+        setUserId: (state, action: PayloadAction<string>) => {
+            state.userId = action.payload
+        },
         setLoggedIn:(state, action: PayloadAction<boolean>) => {
             state.isLoggedIn = action.payload
         }, 
@@ -33,9 +38,10 @@ export const authSlice = createSlice({
     }
 })
 
-export const {setToken, setLoggedIn, setLoading} = authSlice.actions
+export const {setToken, setUserId, setLoggedIn, setLoading} = authSlice.actions
 
 export const selectToken = (state: RootState) => state.auth.token
+export const selectUserId = (state: RootState) => state.auth.userId
 export const selectLoggedIn = (state: RootState) => state.auth.isLoggedIn
 export const selectLoading = (state: RootState) => state.auth.isLoading
 

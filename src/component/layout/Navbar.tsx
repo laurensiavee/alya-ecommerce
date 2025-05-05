@@ -40,7 +40,7 @@ export default function Navbar() {
       <div>
         {isLoggedIn &&
           <div className="flex gap-7">
-            <FontAwesomeIcon icon={faCartShopping} />
+            <FontAwesomeIcon onClick={() => router.push("/wishlist")} icon={faCartShopping} />
             <ProfileTooltip />
           </div>
         }

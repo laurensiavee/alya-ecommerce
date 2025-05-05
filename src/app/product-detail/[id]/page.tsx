@@ -7,9 +7,11 @@ import { DeleteProductReqParams } from "@/entities/product/DeleteProduct.interfa
 import { GetProductReqParams } from "@/entities/product/GetProduct.interface";
 import { PatchProductReqBody, PatchProductReqParams } from "@/entities/product/PatchProduct.interface";
 import { Product } from "@/entities/product/Product.interface";
+import { PostAddToWishlistReqBody } from "@/entities/wishlist/PostAddToWishlist.interface";
 import { ProductCategoryService } from "@/services/product/product-category.service";
 import { ProductService } from "@/services/product/product.service";
-import { selectToken, setLoading } from "@/store/authSlice";
+import { WishlistService } from "@/services/wishlist/wishlist.service";
+import { selectToken, selectUserId, setLoading } from "@/store/authSlice";
 import { showToast } from "@/utils/toastNotify";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -27,10 +29,12 @@ const EditProductCategoryPage = () => {
 
   const productService = new ProductService();
   const productCategoryService = new ProductCategoryService();
+  const wishlistService = new WishlistService();
 
   const router = useRouter();
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
+  const userId = useSelector(selectUserId);
   const params = useParams()
 
   useEffect(() => {
@@ -54,6 +58,11 @@ const EditProductCategoryPage = () => {
   const handleDelete = async (e: React.FormEvent) => {
     e.preventDefault();
     deleteProduct();
+  }
+
+  const handleAddToWishlist = async (e: React.FormEvent) => {
+    e.preventDefault();
+    addProductToWishlist();
   }
   
   function getProduct() {
@@ -149,6 +158,31 @@ const EditProductCategoryPage = () => {
       if(resp.status === 200){
         showToast(resp.message, "success")
         router.push('/')
+      }
+      else
+        showToast(resp.message, "error")
+    })
+    .catch((error) => {
+      showToast(error.message, "error")
+      console.error(error.message);
+    }).finally(() => {
+      dispatch(setLoading(false))
+    });
+  }
+
+  function addProductToWishlist() {
+    dispatch(setLoading(true))
+    const productId: string = Array.isArray(params.id) ? params.id[0] : params.id.toString();
+
+    const body: PostAddToWishlistReqBody = {
+      product_id: Number(productId),
+      users_id: Number(userId),
+    }
+    
+    wishlistService.postAddToWishlist(body, token)
+    .then((resp) => {
+      if(resp.status === 200){
+        showToast(resp.message, "success")
       }
       else
         showToast(resp.message, "error")
@@ -261,7 +295,10 @@ const EditProductCategoryPage = () => {
                             /> */}
                         </div>
                         <div className='flex justify-end'>
-                            <button onClick={handleDelete} type="button" className="rounded-xl py-2 px-5 me-2 bg-gradient-to-br from-l-secondary to-l-accent text-d-text font-bold hover:from-l-accent hover:to-l-secondary hover:shadow-2xl hover:shadow-l-secondary/50">
+                            <button onClick={handleAddToWishlist} className="rounded-xl py-2 px-5 me-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
+                                Add to Wishlist
+                            </button>
+                            <button onClick={handleDelete} type="button" className="rounded-xl py-2 px-5 ms-2 me-2 bg-gradient-to-br from-l-secondary to-l-accent text-d-text font-bold hover:from-l-accent hover:to-l-secondary hover:shadow-2xl hover:shadow-l-secondary/50">
                                 Delete Product
                             </button>
                             <button type='submit' className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">

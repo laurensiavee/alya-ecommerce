@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { API_DEV_URI } from "@/const/token";
+import { API_DEV_URI_AUTH } from "@/const/token";
 import { PostRegisterReqBody } from "@/entities/auth/PostRegisterReq.interface";
 import { BaseResp } from "@/entities/BaseResp.interface";
 import { PostLoginReqBody } from "@/entities/auth/PostLoginReq.interface";
@@ -7,7 +7,7 @@ import { PostForgetPasswordReqBody } from "@/entities/auth/PostForgetPasswordReq
 import { PostResetPasswordReqBody } from "@/entities/auth/PostResetPasswordReqBody.interface";
 import { PostCheckPasswordTokenReqBody } from "@/entities/auth/PostCheckPasswordTokenReq.interface";
 
-const base_url = API_DEV_URI + `auth/`;
+const base_url = API_DEV_URI_AUTH + `auth/`;
 
 export class AuthService {
     async postRegister(body: PostRegisterReqBody): Promise<BaseResp<string>> {
@@ -22,7 +22,7 @@ export class AuthService {
     async postLogin(body: PostLoginReqBody): Promise<BaseResp<string>> {
         try {
             const response: AxiosResponse = await axios.post(base_url + `login/`, body);
-            return this.responseMapper<string>(response)
+            return this.responseMapper<any>(response)
         } catch (error) {
             return this.handleErrorResponse(error);
         }
@@ -37,7 +37,7 @@ export class AuthService {
         }
     }
 
-    async postCheckPasswordToken(body: PostCheckPasswordTokenReqBody): Promise<BaseResp> {
+    async postCheckPasswordToken(body: PostCheckPasswordTokenReqBody): Promise<BaseResp<string>> {
         const url = base_url + `check-password-token/`;
 
         try {
@@ -60,7 +60,6 @@ export class AuthService {
     async postLogout(token: any): Promise<BaseResp<string>> {
         const url = base_url + `logout/`;
 
-        console.log("token scc", token)
         const config = {
             headers: {
                 Authorization: `Bearer ${token.token}` // Add the authorization token to the headers
@@ -95,7 +94,7 @@ export class AuthService {
         const baseResp: BaseResp<T> = {
             status: response.status,
             message: response.data.message,
-            data: response.data.data
+            data: response.data
         }
         return baseResp
     }

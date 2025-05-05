@@ -8,7 +8,7 @@ import { AuthService } from '@/services/auth/auth.service';
 import { showToast } from '@/utils/toastNotify';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import { setLoading, setToken } from '@/store/authSlice';
+import { setLoading, setToken, setUserId } from '@/store/authSlice';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -36,6 +36,8 @@ const LoginPage = () => {
       if(resp.status === 200){
         showToast(resp.message, "success")
         dispatch(setToken(resp.data ? resp.data: ""))
+        dispatch(setUserId(resp.data.user_id ? resp.data.user_id: ""))
+        
         router.push('/')
       }
       else
