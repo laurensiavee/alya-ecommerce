@@ -2,12 +2,14 @@
 import Card from "@/component/base/Card";
 import Label from "@/component/base/Label";
 import Title from "@/component/base/Title";
+import { PostAddToCartReqBody } from "@/entities/cart/PostAddToCart.interface";
 import { Category } from "@/entities/product/Category.interface";
 import { DeleteProductReqParams } from "@/entities/product/DeleteProduct.interface";
 import { GetProductReqParams } from "@/entities/product/GetProduct.interface";
 import { PatchProductReqBody, PatchProductReqParams } from "@/entities/product/PatchProduct.interface";
 import { Product } from "@/entities/product/Product.interface";
 import { PostAddToWishlistReqBody } from "@/entities/wishlist/PostAddToWishlist.interface";
+import { CartService } from "@/services/cart/cart.service";
 import { ProductCategoryService } from "@/services/product/product-category.service";
 import { ProductService } from "@/services/product/product.service";
 import { WishlistService } from "@/services/wishlist/wishlist.service";
@@ -30,6 +32,7 @@ const EditProductCategoryPage = () => {
   const productService = new ProductService();
   const productCategoryService = new ProductCategoryService();
   const wishlistService = new WishlistService();
+  const cartService = new CartService();
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -63,6 +66,11 @@ const EditProductCategoryPage = () => {
   const handleAddToWishlist = async (e: React.FormEvent) => {
     e.preventDefault();
     addProductToWishlist();
+  }
+
+  const handleAddToCart = async (e: React.FormEvent) => {
+    e.preventDefault();
+    addProductToCart();
   }
   
   function getProduct() {
@@ -195,6 +203,32 @@ const EditProductCategoryPage = () => {
     });
   }
 
+  function addProductToCart() {
+    dispatch(setLoading(true))
+    const productId: string = Array.isArray(params.id) ? params.id[0] : params.id.toString();
+
+    const body: PostAddToCartReqBody = {
+      product_id: Number(productId),
+      users_id: Number(userId),
+      qty: 1,
+    }
+    
+    cartService.postAddToCart(body, token)
+    .then((resp) => {
+      if(resp.status === 200){
+        showToast(resp.message, "success")
+      }
+      else
+        showToast(resp.message, "error")
+    })
+    .catch((error) => {
+      showToast(error.message, "error")
+      console.error(error.message);
+    }).finally(() => {
+      dispatch(setLoading(false))
+    });
+  }
+
   function setProductData(product: Product){
     setProductName(product.product_name)
     setStock(product.product_stock.toString())
@@ -297,6 +331,9 @@ const EditProductCategoryPage = () => {
                         <div className='flex justify-end'>
                             <button onClick={handleAddToWishlist} className="rounded-xl py-2 px-5 me-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
                                 Add to Wishlist
+                            </button>
+                            <button onClick={handleAddToCart} className="rounded-xl py-2 px-5 me-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
+                                Add to Cat
                             </button>
                             <button onClick={handleDelete} type="button" className="rounded-xl py-2 px-5 ms-2 me-2 bg-gradient-to-br from-l-secondary to-l-accent text-d-text font-bold hover:from-l-accent hover:to-l-secondary hover:shadow-2xl hover:shadow-l-secondary/50">
                                 Delete Product

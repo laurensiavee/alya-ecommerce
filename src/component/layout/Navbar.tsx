@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { selectLoggedIn } from "@/store/authSlice";
 import ProfileTooltip from "../ProfileTooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faPlus, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faHeart, faPlus, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar() {
 
@@ -40,7 +40,8 @@ export default function Navbar() {
       <div>
         {isLoggedIn &&
           <div className="flex gap-7">
-            <FontAwesomeIcon onClick={() => router.push("/wishlist")} icon={faCartShopping} />
+            <FontAwesomeIcon onClick={() => router.push("/wishlist")} icon={faHeart} />
+            <FontAwesomeIcon onClick={() => router.push("/cart")} icon={faCartShopping} />
             <ProfileTooltip />
           </div>
         }
