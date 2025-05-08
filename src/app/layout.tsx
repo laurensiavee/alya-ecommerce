@@ -30,7 +30,7 @@ export default function RootLayout({
             <SessionWrapper>
               <LoadingScreen />
               <Navbar />
-              <div className="mt-[3rem]">
+              <div className="mt-[3rem] bg-gray-100">
                 <Sidebar />
                 <ToastContainer position="top-center"/>
                 <ContentContainer>

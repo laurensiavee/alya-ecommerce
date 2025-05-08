@@ -82,8 +82,8 @@ const ProductCategoryListPage = () => {
   }
 
     return (
-        <div className='flex justify-center align-center h-[calc(100vh-10rem)] '>
-            <Card>
+        <div className='flex justify-center align-center h-[calc(100vh-10rem)]'>
+            <Card hasShadow={false}>
                 <div className="flex justify-between items-center mx-5">
                     <Title className="text-center">Product Category List</Title>
                     <button onClick={handleAddCategory} className="rounded-xl py-2 px-5 ms-2 bg-gradient-to-br from-l-primary to-l-secondary text-d-text font-bold hover:from-l-secondary hover:to-l-primary hover:shadow-2xl hover:shadow-l-primary/50">
