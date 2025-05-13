@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { selectLoggedIn } from "@/store/authSlice";
 import ProfileTooltip from "../ProfileTooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faHeart, faPlus, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faHeart, faPlus, faRightToBracket, faStore } from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar() {
 
@@ -25,10 +25,21 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed z-50 top-0 w-full px-9 py-3 bg-gradient-to-r from-l-primary to-l-secondary text-d-text font-medium flex justify-between items-center">
+    <nav className="
+      fixed z-50 top-0 w-full px-9 py-3
+      bg-gradient-to-r from-n-primary to-n-secondary
+      text-n-white font-medium flex 
+      justify-between items-center">
       <div className="flex w-full">
         <button onClick={handleHome} className="me-5">
-          Alya
+          <h1 className="font-bold text-lg">
+              <FontAwesomeIcon 
+                  icon={faStore} 
+                  size="lg" 
+                  className='text-n-text-white me-2' 
+              />
+              Alya
+          </h1>
         </button>
         <div className="mx-5 w-1/2 flex">
           <input type="text" placeholder="Search..." className="border-0 text-l-text text-sm rounded-md block w-full p-1.5" />

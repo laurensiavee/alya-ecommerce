@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Theme } from '@radix-ui/themes';
 import { SessionWrapper } from "@/utils/SessionWrapper"; 
@@ -12,7 +12,7 @@ import ContentContainer from "@/component/layout/ContentContainer";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["300", "400", "600", "700"], // Customize the weights you want to use
+  weight: ["300", "400", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -28,12 +28,12 @@ export default function RootLayout({
   return (
     <StoreProvider>
       <html lang="en">
-        <body className={`bg-l-bg ${poppins.className}`}>
+        <body className={`bg-gray-100 ${poppins.className}`}>
           <Theme>
             <SessionWrapper>
               <LoadingScreen />
               <Navbar />
-              <div className="font-sans mt-[3rem] bg-gray-100">
+              <div className="font-sans mt-[3rem]">
                 <Sidebar />
                 <ToastContainer position="top-center"/>
                 <ContentContainer>
