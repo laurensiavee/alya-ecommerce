@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { Theme } from '@radix-ui/themes';
 import { SessionWrapper } from "@/utils/SessionWrapper"; 
@@ -10,7 +10,10 @@ import LoadingScreen from "@/component/base/LoadingScreen";
 import Sidebar from "@/component/layout/Sidebar";
 import ContentContainer from "@/component/layout/ContentContainer";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700"], // Customize the weights you want to use
+});
 
 export const metadata: Metadata = {
   title: "Alya store",
@@ -25,12 +28,12 @@ export default function RootLayout({
   return (
     <StoreProvider>
       <html lang="en">
-        <body className="bg-l-bg">
+        <body className={`bg-l-bg ${poppins.className}`}>
           <Theme>
             <SessionWrapper>
               <LoadingScreen />
               <Navbar />
-              <div className="mt-[3rem] bg-gray-100">
+              <div className="font-sans mt-[3rem] bg-gray-100">
                 <Sidebar />
                 <ToastContainer position="top-center"/>
                 <ContentContainer>
