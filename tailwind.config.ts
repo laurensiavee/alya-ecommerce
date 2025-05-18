@@ -15,11 +15,14 @@ const config = {
   theme: {
     extend: {
       colors: {
-        // color pallete:
-        'primary-text': '#041415',
-        'secondary-text': '#565562',
-        'default-white': '#EAFAFB',
-        'default-surface': '#D1D7D9', 
+        'primary-text-dark': '#041415',
+        'primary-text': '#565562',
+        'secondary-text': '#8C8C8C',
+        'tertiary-text': '#B1B1B1',
+
+        'default-bg': '#FAFAFA',
+        'default-bg-gray': '#EEEEEE',
+        'default-surface': '#DDDDD5', 
         
         'primary-darker': '#2A75E6',
         'primary-dark': '#3F8BE3',
@@ -48,22 +51,6 @@ const config = {
         'success': '#A4D7A0', 
         'warning': '#FFCC80', 
         'error': '#FF6A6A', 
-
-        'n-text-primary': '#1E1E1E', 
-        'n-text-secondary': '#8C8C8C', 
-        'n-text-tertiary': '#B1B1B1', 
-
-        // 'l-primary': '#5EB1FF',
-        // 'l-secondary': '#66D1C4 ',
-        // 'l-accent': '#C9B6FF',
-        // 'd-bg': '#020B0D',
-        // 'd-primary-darker': '#007D9B',
-        // 'd-primary-dark': '#0098C4',
-        // 'd-primary': '#FFA58C',
-        // 'd-primary-light': '#33B8E6',
-        // 'd-primary-lighter': '#80D4F2',
-        // 'd-secondary': '#3EB489',
-        // 'd-accent': '#C9B6FF',
       },
       borderRadius: {
         lg: "var(--radius)",
