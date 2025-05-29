@@ -1,6 +1,7 @@
 'use client'
 import DefaultButton from "@/component/Default/DefaultButton";
 import DefaultInput from "@/component/Default/DefaultInput";
+import DefaultSelect from "@/component/Default/DefaultSelect";
 import { useState } from "react";
 
 const StylingPage = () => {
@@ -61,6 +62,11 @@ const StylingPage = () => {
           <h1 className="text-lg font-semibold text-primary-text-dark">Input</h1>
           <p>value: {dummy}</p>
           <DefaultInput title="tes" placeholder="input tes" value={dummy} onChange={(e) => setDummy(e.target.value)}/>
+        </div>
+        <div className="my-5">
+          <h1 className="text-lg font-semibold text-primary-text-dark">Select</h1>
+          <p>value: {dummy}</p>
+          <DefaultSelect title="tes" options={[{value:"tes1", label:"tes1"}, {value:"tes2", label:"tes2"}]} placeholder="input tes" value={dummy} onChange={(e) => setDummy(e.target.value)}/>
         </div>
       </div>
     </>
